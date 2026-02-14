@@ -50,6 +50,15 @@
       "EnableAnnounce": false,
       "AnnounceContent": "Welcome to HyacineCore!"
     },
+    "WelcomeMail": {
+      "Enable": false,
+      "Sender": "HyacineCore",
+      "Title": "Welcome to HyacineCore!",
+      "Content": "Welcome aboard.",
+      "TemplateId": 1,
+      "ExpiredDay": 3650,
+      "Rewards": []
+    },
     "ServerProfile": {
       "Name": "HyacineLover",
       "Uid": 5201314,
@@ -81,6 +90,31 @@
       "FromDispatchBaseUrl": "",
       "RunGateway": true,
       "Regions": []
+    },
+    "ChallengePeak": {
+      "BronzeFrameId": 226001,
+      "SilverFrameId": 226002,
+      "GoldFrameId": 226003,
+      "UltraFrameId": 226004,
+      "CurrentGroupId": 1,
+      "TargetEntryByGroup": {
+        "1": [
+          3013501,
+          8
+        ],
+        "2": [
+          3013701,
+          10
+        ],
+        "3": [
+          3012302,
+          5
+        ],
+        "4": [
+          3014001,
+          7
+        ]
+      }
     },
     "FarmingDropRate": 1,
     "UseCache": false

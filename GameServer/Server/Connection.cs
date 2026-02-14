@@ -20,6 +20,12 @@ public class Connection(KcpConversation conversation, IPEndPoint remote) : Hyaci
 
     public PlayerInstance? Player { get; set; }
 
+    protected override string? GetLuaUidText()
+    {
+        var uid = Player?.Uid ?? 0;
+        return uid > 0 ? $"UID:{uid}" : null;
+    }
+
     public List<PacketActionData> CustomPacketQueue { get; set; } = [];
 
     private PacketActionData? GetCurActionData()

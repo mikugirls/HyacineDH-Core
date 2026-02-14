@@ -2,6 +2,7 @@ using HyacineCore.Server.Data;
 using HyacineCore.Server.Database.Inventory;
 using HyacineCore.Server.Enums.Avatar;
 using HyacineCore.Server.Enums.Item;
+using HyacineCore.Server.GameServer.Server.Packet.Send.Avatar;
 using HyacineCore.Server.GameServer.Server.Packet.Send.PlayerSync;
 using HyacineCore.Server.Internationalization;
 
@@ -277,5 +278,59 @@ public class CommandGiveall : ICommand
         await arg.SendMsg(I18NManager.Translate("Game.Command.GiveAll.GiveAllItems",
             I18NManager.Translate("Word.Avatar"),
             "1"));
+    }
+
+    [CommandMethod("0 skin")]
+    public async ValueTask GiveAllSkin(CommandArg arg)
+    {
+        var player = arg.Target?.Player;
+        if (player == null)
+        {
+            await arg.SendMsg(I18NManager.Translate("Game.Command.Notice.PlayerNotFound"));
+            return;
+        }
+
+        var unlockedAvatarSkinCount = 0;
+        foreach (var avatarSkin in GameData.AvatarSkinData.Values.OrderBy(x => x.ID))
+        {
+            if (!player.PlayerUnlockData!.Skins.TryGetValue(avatarSkin.AvatarID, out var skins))
+            {
+                skins = [];
+                player.PlayerUnlockData.Skins[avatarSkin.AvatarID] = skins;
+            }
+
+            if (skins.Contains(avatarSkin.ID)) continue;
+            skins.Add(avatarSkin.ID);
+            unlockedAvatarSkinCount++;
+
+            await player.SendPacket(new PacketUnlockAvatarSkinScNotify(avatarSkin.ID));
+        }
+
+        var outfitCount = 0;
+        List<ItemData> syncItems = [];
+        var outfitIds = GameData.ItemConfigData.Values
+            .Where(x => x.ItemMainType == ItemMainTypeEnum.Usable &&
+                        (x.ItemSubType == ItemSubTypeEnum.PlayerOutfit ||
+                         x.ItemSubType == ItemSubTypeEnum.HipplenOutfit))
+            .Select(x => x.ID)
+            .Distinct()
+            .OrderBy(x => x);
+
+        foreach (var outfitId in outfitIds)
+        {
+            if (player.InventoryManager!.GetItem(outfitId) != null) continue;
+
+            var item = await player.InventoryManager.AddItem(outfitId, 1, false, sync: false, returnRaw: true);
+            if (item == null) continue;
+
+            syncItems.Add(item);
+            outfitCount++;
+        }
+
+        if (syncItems.Count > 0)
+            await player.SendPacket(new PacketPlayerSyncScNotify(syncItems));
+
+        await arg.SendMsg(
+            $"Unlocked avatar skins: {unlockedAvatarSkinCount}, Trailblazer outfits: {outfitCount}");
     }
 }

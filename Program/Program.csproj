@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="HandbookGenerator\HandbookGenerator.cs" />
+    <Compile Remove="HandbookGenerator\HandbookGeneratorStub.cs" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,10 @@ public class ChallengePeakConfigExcel : ExcelResource
 
     public override void AfterAllDone()
     {
-        var groupId = (int)GameConstants.CHALLENGE_PEAK_TARGET_ENTRY_ID[GameConstants.CHALLENGE_PEAK_CUR_GROUP_ID][1];
+        var peakGroupId = GameConstants.ResolveChallengePeakGroupIdByLevel(ID);
+        var groupId = GameConstants.ResolveChallengePeakStartGroupId(peakGroupId, false);
+        if (groupId <= 0) return;
+
         ChallengeMonsters.Add(groupId, []);
 
         var curConfId = 200000;

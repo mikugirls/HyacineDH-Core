@@ -339,83 +339,38 @@ public static class HandbookGenerator
     public static void GenerateRogueBuff(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback, bool setName)
     {
-        foreach (var buff in GameData.RogueMazeBuffData)
-        {
-            var name = map.TryGetValue(buff.Value.BuffName.Hash, out var value)
-                ? value
-                : fallback.TryGetValue(buff.Value.BuffName.Hash, out value)
-                    ? value
-                    : $"[{buff.Value.BuffName.Hash}]";
-            builder.AppendLine(buff.Key + ": " + name + " --- Level:" + buff.Value.Lv);
-
-            if (setName && name != $"[{buff.Value.BuffName.Hash}]") buff.Value.Name = name;
-        }
+        foreach (var buff in GameData.MazeBuffData.Values.OrderBy(x => x.ID).ThenBy(x => x.Lv))
+            builder.AppendLine($"{buff.ID}: {buff.ModifierName} --- Level:{buff.Lv}");
     }
 
     public static void GenerateRogueMiracleDisplay(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback, bool setName)
     {
-        foreach (var display in GameData.RogueMiracleData.Values)
-        {
-            var name = map.TryGetValue(display.MiracleName.Hash, out var value)
-                ? value
-                : fallback.TryGetValue(display.MiracleName.Hash, out value)
-                    ? value
-                    : $"[{display.MiracleName.Hash}]";
-            builder.AppendLine(display.MiracleID + ": " + name);
-
-            if (setName && name != $"[{display.MiracleName.Hash}]") display.Name = name;
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static void GenerateCurrencyWarRole(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var display in GameData.GridFightRoleBasicInfoData.Values)
-        {
-            // get from avatar id
-            if (!GameData.AvatarConfigData.TryGetValue((int)display.AvatarID, out var avatar)) continue;
-            var name = GetNameFromTextMap(avatar.AvatarName.Hash, map, fallback);
-
-            builder.AppendLine(display.ID + ": " + name);
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static void GenerateCurrencyWarEquipment(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var display in GameData.GridFightEquipmentData.Values)
-        {
-            // get from items
-            if (!GameData.GridFightItemsData.TryGetValue(display.ID, out var item)) continue;
-            var name = GetNameFromTextMap(item.ItemName.Hash, map, fallback);
-
-            builder.AppendLine(display.ID + ": " + name);
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static void GenerateCurrencyWarConsumable(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var display in GameData.GridFightConsumablesData.Values)
-        {
-            // get from items
-            if (!GameData.GridFightItemsData.TryGetValue(display.ID, out var item)) continue;
-            var name = GetNameFromTextMap(item.ItemName.Hash, map, fallback);
-
-            builder.AppendLine(display.ID + ": " + name);
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static void GenerateCurrencyWarOrb(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var display in GameData.GridFightOrbData.Values)
-        {
-            var name = GetNameFromTextMap(display.OrbName.Hash, map, fallback);
-
-            builder.AppendLine(display.OrbID + ": " + name);
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static string GetNameFromTextMap(BigInteger key, Dictionary<BigInteger, string> map,
@@ -435,58 +390,13 @@ public static class HandbookGenerator
     public static void GenerateRogueDiceSurfaceDisplay(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var display in GameData.RogueNousDiceSurfaceData.Values)
-        {
-            var name = map.TryGetValue(display.SurfaceName.Hash, out var value)
-                ? value
-                : fallback.TryGetValue(display.SurfaceName.Hash, out value)
-                    ? value
-                    : $"[{display.SurfaceName.Hash}]";
-            var desc = map.TryGetValue(display.SurfaceDesc.Hash, out var c) ? c : $"[{display.SurfaceDesc.Hash}]";
-            builder.AppendLine(display.SurfaceID + ": " + name + "\n" + "Desc: " + desc);
-        }
+        builder.AppendLine("Not available in current build.");
     }
 
     public static void GenerateRogueDialogueDisplay(StringBuilder builder, Dictionary<BigInteger, string> map,
         Dictionary<BigInteger, string> fallback)
     {
-        foreach (var npc in GameData.RogueNPCData.Values.Where(x => x.RogueNpcConfig != null))
-        {
-            builder.AppendLine("NpcId: " + npc.RogueNPCID);
-            foreach (var dialogue in npc.RogueNpcConfig?.DialogueList ?? [])
-            {
-                var eventNameHash =
-                    GameData.RogueTalkNameConfigData.GetValueOrDefault(dialogue.TalkNameID)?.Name.Hash ??
-                    -1;
-                var eventName = GetNameFromTextMap(eventNameHash, map, fallback);
-                builder.AppendLine($"  Progress: {dialogue.DialogueProgress} | {eventName}");
-                builder.AppendLine($"  Type: {npc.RogueNpcConfig!.DialogueType}");
-                builder.AppendLine("  Options: ");
-
-                foreach (var option in dialogue.OptionInfo?.OptionList ?? [])
-                {
-                    var display = GameData.RogueDialogueOptionDisplayData.GetValueOrDefault(option.DisplayID);
-                    if (display == null) continue;
-
-                    var optionName = GetNameFromTextMap(display.OptionTitle.Hash, map, fallback);
-                    var optionDesc = GetNameFromTextMap(display.OptionDesc.Hash, map, fallback);
-                    builder.AppendLine($"    Option: {option.OptionID} - {optionName}");
-                    builder.AppendLine($"      {optionDesc}".Replace("#2", option.DescValue.ToString())
-                        .Replace("#5", option.DescValue2.ToString()).Replace("#6", option.DescValue3.ToString())
-                        .Replace("#7", option.DescValue4.ToString()));
-                    if (option.DynamicMap.Count == 0) continue;
-
-                    builder.AppendLine("      Dynamic Value:");
-                    foreach (var value in option.DynamicMap)
-                    {
-                        var dynamic = GameData.RogueDialogueDynamicDisplayData.GetValueOrDefault(value.Value.DisplayID);
-                        if (dynamic == null) continue;
-                        var dynamicName = GetNameFromTextMap(dynamic.ContentText.Hash, map, fallback);
-                        builder.AppendLine($"        Dynamic Id: {value.Key} | {dynamicName}");
-                    }
-                }
-            }
-        }
+        builder.AppendLine("Not available in current build.");
     }
 #endif
 }

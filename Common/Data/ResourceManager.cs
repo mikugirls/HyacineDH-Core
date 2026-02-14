@@ -55,6 +55,9 @@ public class ResourceManager
 
         Task.WaitAll(loadTasks.ToArray());
 
+        // Build ChallengePeak runtime mapping from resource data instead of relying on hardcoded map.
+        GameConstants.RefreshChallengePeakTargetEntriesFromResource();
+
         // copy modifiers
         foreach (var value in GameData.AdventureAbilityConfigListData.Values)
         foreach (var adventureModifierConfig in value?.GlobalModifiers ?? [])

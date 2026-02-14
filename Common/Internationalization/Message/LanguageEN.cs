@@ -275,14 +275,15 @@ public class GiveAllTextEN
     public string Desc =>
         "Give the player all items of the specified type.\navatar means characters, equipment means Light Cones, relic means relics, unlock means chat bubbles, phone wallpapers, avatars, train means Trailblazer's room contents, pet means pets, path means Paths for multi-Path characters.";
 
-    public string Usage =>
-        "Usage: /giveall avatar r<Eidolon> l<Level>\n\n" +
-        "Usage: /giveall equipment r<Superimposition> l<Level> x<Count>\n\n" +
-        "Usage: /giveall relic l<Level> x<Count>\n\n" +
-        "Usage: /giveall unlock\n\n" +
-        "Usage: /giveall train\n\n" +
-        "Usage: /giveall pet\n\n" +
-        "Usage: /giveall path";
+      public string Usage =>
+          "Usage: /giveall avatar r<Eidolon> l<Level>\n\n" +
+          "Usage: /giveall equipment r<Superimposition> l<Level> x<Count>\n\n" +
+          "Usage: /giveall relic l<Level> x<Count>\n\n" +
+          "Usage: /giveall skin\n\n" +
+          "Usage: /giveall unlock\n\n" +
+          "Usage: /giveall train\n\n" +
+          "Usage: /giveall pet\n\n" +
+          "Usage: /giveall path";
 
     public string GiveAllItems => "Gave all {0}, {1} each";
 }

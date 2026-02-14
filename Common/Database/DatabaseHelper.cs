@@ -95,26 +95,32 @@ public class DatabaseHelper
         // start dispatch server
         LoadAccount = true;
 
-        var res = Parallel.ForEach(list, account =>
+        // Use sequential preload to avoid SQLite lock contention / hangs caused by nested parallel reads.
+        foreach (var account in list)
+        foreach (var t in types)
         {
-            Parallel.ForEach(types, t =>
-            {
-                if (t == typeof(AccountData)) return; // skip the account data
+            if (t == typeof(AccountData)) continue; // skip the account data
 
+            try
+            {
                 typeof(DatabaseHelper).GetMethod(nameof(InitializeTable))?.MakeGenericMethod(t)
                     .Invoke(null, [account.Uid]);
-            }); // cache the data
-        });
-
-        while (!res.IsCompleted)
-        {
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Failed to preload database table {t.Name} for uid={account.Uid}", e);
+            }
         }
 
         LastSaveTick = DateTime.UtcNow.Ticks;
 
         SaveThread = new Thread(() =>
         {
-            while (true) CalcSaveDatabase();
+            while (true)
+            {
+                CalcSaveDatabase();
+                Thread.Sleep(100);
+            }
         });
         SaveThread.Start();
 

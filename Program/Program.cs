@@ -296,7 +296,18 @@ public class EntryPoint
 
         // generate the handbook
         if (ConfigManager.Config.ServerOption.ServerConfig.RunGateway)
-            new Task(HandbookGenerator.GenerateAll).Start();
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    HandbookGenerator.GenerateAll();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(I18NManager.Translate("Server.ServerInfo.FailedToInitializeItem",
+                        I18NManager.Translate("Word.Handbook")), e);
+                }
+            });
 
         if (!DatabaseHelper.LoadAllData)
         {

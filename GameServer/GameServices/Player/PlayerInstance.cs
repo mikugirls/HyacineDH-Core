@@ -2,6 +2,7 @@ using HyacineCore.Server.Data;
 using HyacineCore.Server.Database;
 using HyacineCore.Server.Database.Avatar;
 using HyacineCore.Server.Database.Friend;
+using HyacineCore.Server.Database.Inventory;
 using HyacineCore.Server.Database.Player;
 using HyacineCore.Server.Database.Scene;
 using HyacineCore.Server.Database.Tutorial;
@@ -307,7 +308,7 @@ public partial class PlayerInstance(PlayerData data)
        // 使用 Packet 类进行装箱
          await SendPacket(new PacketGetLoginActivityScRsp(ActivityManager.GetLoginInfo()));
     }
-		if (DailyActiveManager != null)
+        if (DailyActiveManager != null)
         {
             // 1. 触发检查：确保登录时就完成跨天重置或初始化
             // 这样玩家如果跨过凌晨4点登录，任务会立刻刷新
@@ -317,6 +318,8 @@ public partial class PlayerInstance(PlayerData data)
             // 这样客户端进度条会立刻显示正确的分数
             await DailyActiveManager.SyncDailyActiveNotify();
         }
+
+        await TrySendWelcomeMailAsync();
         InvokeOnPlayerLogin(this);
     }
 
@@ -469,6 +472,38 @@ public partial class PlayerInstance(PlayerData data)
         }
 
         if (sendPacket) await SendPacket(new PacketStaminaInfoScNotify(this));
+    }
+
+    private async ValueTask TrySendWelcomeMailAsync()
+    {
+        if (!IsNewPlayer || MailManager == null)
+            return;
+
+        var config = ConfigManager.Config.ServerOption.WelcomeMail;
+        if (!config.Enable)
+            return;
+
+        var rewards = config.Rewards
+            .Where(x => x.ItemId > 0 && x.Count > 0)
+            .Select(x => new ItemData
+            {
+                ItemId = x.ItemId,
+                Count = x.Count
+            })
+            .ToList();
+
+        var expiredDay = Math.Max(config.ExpiredDay, 1);
+        if (rewards.Count > 0)
+        {
+            await MailManager.SendMail(config.Sender, config.Title, config.Content, config.TemplateId, rewards, expiredDay);
+        }
+        else
+        {
+            await MailManager.SendMail(config.Sender, config.Title, config.Content, config.TemplateId, expiredDay);
+        }
+
+        IsNewPlayer = false;
+        DatabaseHelper.ToSaveUidList.SafeAdd(Uid);
     }
 
     public async ValueTask OnHeartBeat()

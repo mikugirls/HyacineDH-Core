@@ -50,6 +50,7 @@ public static class ConfigManager
             })!;
         }
 
+        GameConstants.ApplyChallengePeakConfig(Config.ServerOption.ChallengePeak);
         SaveData(Config, ConfigFilePath);
     }
 

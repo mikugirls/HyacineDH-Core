@@ -83,10 +83,12 @@ public class ServerOption
     public string FallbackLanguage { get; set; } = "EN";
     public HashSet<string> DefaultPermissions { get; set; } = ["*"];
     public ServerAnnounce ServerAnnounce { get; set; } = new();
+    public WelcomeMailOption WelcomeMail { get; set; } = new();
     public ServerProfile ServerProfile { get; set; } = new();
     public bool AutoCreateUser { get; set; } = true;
     public LogOption LogOption { get; set; } = new();
     public ServerConfig ServerConfig { get; set; } = new();
+    public ChallengePeakOption ChallengePeak { get; set; } = new();
     public int FarmingDropRate { get; set; } = 1;
     public bool UseCache { get; set; } = false; // don't recommend
 
@@ -94,6 +96,39 @@ public class ServerOption
     {
         return Math.Max(Math.Min(FarmingDropRate, 999), 1);
     }
+}
+
+public class WelcomeMailOption
+{
+    public bool Enable { get; set; } = false;
+    public string Sender { get; set; } = "HyacineCore";
+    public string Title { get; set; } = "Welcome to HyacineCore!";
+    public string Content { get; set; } = "Welcome aboard.";
+    public int TemplateId { get; set; } = 1;
+    public int ExpiredDay { get; set; } = 3650;
+    public List<WelcomeMailReward> Rewards { get; set; } = [];
+}
+
+public class WelcomeMailReward
+{
+    public int ItemId { get; set; }
+    public int Count { get; set; } = 1;
+}
+
+public class ChallengePeakOption
+{
+    public uint BronzeFrameId { get; set; } = 226001;
+    public uint SilverFrameId { get; set; } = 226002;
+    public uint GoldFrameId { get; set; } = 226003;
+    public uint UltraFrameId { get; set; } = 226004;
+    public uint CurrentGroupId { get; set; } = 1;
+    public Dictionary<uint, List<uint>> TargetEntryByGroup { get; set; } = new()
+    {
+        {1, [3013501, 8]},
+        {2, [3013701, 10]},
+        {3, [3012302, 5]},
+        {4, [3014001, 7]}
+    };
 }
 
 public class ServerConfig

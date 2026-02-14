@@ -12,7 +12,6 @@ public class UnlockHandler(PlayerInstance player)
 
     public bool GetUnlockStatus(int unlockId)
     {
-        // LC 风格：当关闭任务/Quest 系统时，为了能游玩各玩法与地图交互，直接视为全部解锁
         if (!ConfigManager.Config.ServerOption.EnableMission || !ConfigManager.Config.ServerOption.EnableQuest)
             return true;
 

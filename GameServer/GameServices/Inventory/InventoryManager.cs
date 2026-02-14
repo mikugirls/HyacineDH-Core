@@ -100,8 +100,16 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
                             Player.PlayerUnlockData.Skins[avatarId] = value;
                         }
 
-                        value.Add(itemId);
-                        await Player.SendPacket(new PacketUnlockAvatarSkinScNotify(itemId));
+                        if (!value.Contains(itemId))
+                        {
+                            value.Add(itemId);
+                            await Player.SendPacket(new PacketUnlockAvatarSkinScNotify(itemId));
+                        }
+                        break;
+                    case ItemSubTypeEnum.PamSkin:
+                    case ItemSubTypeEnum.PlayerOutfit:
+                    case ItemSubTypeEnum.HipplenOutfit:
+                        itemData = await PutItem(itemId, count);
                         break;
                     case ItemSubTypeEnum.Food:
                     case ItemSubTypeEnum.Book:

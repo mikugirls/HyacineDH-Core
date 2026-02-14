@@ -24,7 +24,10 @@ public class ChallengePeakInstance(PlayerInstance player, ChallengeDataPb data) 
 
         Dictionary<int, List<ChallengeConfigExcel.ChallengeMonsterInfo>> monsters = [];
 
-        var mazeGroupId = (int)GameConstants.CHALLENGE_PEAK_TARGET_ENTRY_ID[GameConstants.CHALLENGE_PEAK_CUR_GROUP_ID][1];
+        var mazeGroupId = GameConstants.ResolveChallengePeakStartGroupId(
+            (int)Data.Peak.CurrentPeakGroupId,
+            Data.Peak.IsHard);
+        if (mazeGroupId <= 0) return Config.ChallengeMonsters;
         monsters.Add(mazeGroupId, []);
 
 
