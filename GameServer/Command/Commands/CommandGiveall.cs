@@ -117,14 +117,15 @@ public class CommandGiveall : ICommand
         }
 
         arg.CharacterArgs.TryGetValue("x", out var amountStr);
-        amountStr ??= "1";
+        amountStr ??= "10000";
         if (!int.TryParse(amountStr, out var amount) || amount <= 0)
         {
             await arg.SendMsg(I18NManager.Translate("Game.Command.Notice.InvalidArguments"));
             return;
         }
 
-        var consumableUsableSubTypes = new HashSet<ItemSubTypeEnum>
+        var allowedPurposeTypes = new HashSet<int> { 1, 2, 3, 4, 5, 6, 7, 10 };
+        var materialLikeUsableSubTypes = new HashSet<ItemSubTypeEnum>
         {
             ItemSubTypeEnum.Food,
             ItemSubTypeEnum.Book,
@@ -133,22 +134,53 @@ public class CommandGiveall : ICommand
             ItemSubTypeEnum.ForceOpitonalGift
         };
 
-        var materialList = GameData.ItemConfigData.Values;
+        amount = Math.Min(amount, 100000000);
+
         var items = new List<ItemData>();
-        foreach (var material in materialList)
-            if (material.ID > 0 && material.PileLimit > 0 &&
-                ((material.ItemMainType == ItemMainTypeEnum.Material) ||
-                 (material.ItemMainType == ItemMainTypeEnum.Usable &&
-                  consumableUsableSubTypes.Contains(material.ItemSubType))))
-                items.Add(new ItemData
-                {
-                    ItemId = material.ID,
-                    Count = amount
-                });
+        foreach (var item in GameData.ItemConfigData.Values)
+        {
+            if (item.ID <= 0 || item.PileLimit <= 0) continue;
+            if (!allowedPurposeTypes.Contains(item.PurposeType)) continue;
+
+            var isMaterial = item.ItemMainType == ItemMainTypeEnum.Material;
+            var isUsableMaterialLike = item.ItemMainType == ItemMainTypeEnum.Usable &&
+                                       materialLikeUsableSubTypes.Contains(item.ItemSubType);
+            if (!isMaterial && !isUsableMaterialLike) continue;
+
+            items.Add(new ItemData
+            {
+                ItemId = item.ID,
+                Count = Math.Min(amount, item.PileLimit)
+            });
+        }
+
+        // Credits
+        items.Add(new ItemData
+        {
+            ItemId = 2,
+            Count = 100000000
+        });
 
         await player.InventoryManager!.AddItems(items, false);
-        await arg.SendMsg(I18NManager.Translate("Game.Command.GiveAll.GiveAllItems",
-            I18NManager.Translate("Word.Material"), amount.ToString()));
+        await arg.SendMsg($"给予 {player.Data.Name} {items.Count} 项目");
+    }
+
+    [CommandMethod("0 materials")]
+    public ValueTask GiveAllMaterialAliasMaterials(CommandArg arg)
+    {
+        return GiveAllMaterial(arg);
+    }
+
+    [CommandMethod("0 mats")]
+    public ValueTask GiveAllMaterialAliasMats(CommandArg arg)
+    {
+        return GiveAllMaterial(arg);
+    }
+
+    [CommandMethod("0 m")]
+    public ValueTask GiveAllMaterialAliasM(CommandArg arg)
+    {
+        return GiveAllMaterial(arg);
     }
 
     [CommandMethod("0 pet")]

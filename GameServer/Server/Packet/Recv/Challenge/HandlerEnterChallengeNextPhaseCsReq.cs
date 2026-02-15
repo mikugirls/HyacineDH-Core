@@ -10,19 +10,34 @@ public class HandlerEnterChallengeNextPhaseCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        if (connection.Player!.ChallengeManager?.ChallengeInstance is not ChallengeBossInstance boss)
+        var challenge = connection.Player!.ChallengeManager?.ChallengeInstance;
+        if (challenge == null)
         {
             await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
             return;
         }
 
-        var ok = await boss.NextPhase();
-        if (!ok)
+        if (challenge is ChallengeBossInstance boss)
         {
-            await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
+            var ok = await boss.NextPhase();
+            if (!ok)
+            {
+                await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
+                return;
+            }
+
+            await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(connection.Player));
             return;
         }
 
-        await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(connection.Player));
+        if (challenge is ChallengeMemoryInstance or ChallengeStoryInstance)
+        {
+            // Memory/Story already switch stage server-side when stage 1 battle settles.
+            // Reply with current scene so client can continue to stage 2 flow.
+            await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(connection.Player));
+            return;
+        }
+
+        await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
     }
 }

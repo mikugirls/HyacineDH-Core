@@ -11,8 +11,8 @@ public class HandlerAvatarExpUpCsReq : Handler
     {
         var req = AvatarExpUpCsReq.Parser.ParseFrom(data);
         var player = connection.Player!;
-        var returnItem = await player.InventoryManager!.LevelUpAvatar((int)req.BaseAvatarId, req.ItemCost);
+        var result = await player.InventoryManager!.LevelUpAvatar((int)req.BaseAvatarId, req.ItemCost);
 
-        await connection.SendPacket(new PacketAvatarExpUpScRsp(returnItem));
+        await connection.SendPacket(new PacketAvatarExpUpScRsp(result.ReturnItems, result.Retcode));
     }
 }

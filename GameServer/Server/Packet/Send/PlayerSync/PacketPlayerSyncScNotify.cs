@@ -41,7 +41,7 @@ public class PacketPlayerSyncScNotify : BasePacket
         {
             AvatarSync = new AvatarSync()
         };
-        proto.AvatarSync.AvatarList.Add(avatar.ToProto());
+        AddAvatarToProto(avatar, proto.AvatarSync);
 
         SetData(proto);
     }
@@ -55,7 +55,7 @@ public class PacketPlayerSyncScNotify : BasePacket
 
         foreach (var avatar in avatars)
         {
-            proto.AvatarSync.AvatarList.Add(avatar.ToProto());
+            AddAvatarToProto(avatar, proto.AvatarSync);
         }
 
         SetData(proto);
@@ -69,8 +69,7 @@ public class PacketPlayerSyncScNotify : BasePacket
         };
 
         foreach (var avatar in avatars)
-            proto.AvatarSync.AvatarList.Add(avatar.ToProto());
-        
+            AddAvatarToProto(avatar, proto.AvatarSync);
 
         SetData(proto);
     }
@@ -80,7 +79,7 @@ public class PacketPlayerSyncScNotify : BasePacket
         var proto = new PlayerSyncScNotify();
         AddItemToProto(item, proto);
         proto.AvatarSync = new AvatarSync();
-        proto.AvatarSync.AvatarList.Add(avatar.ToProto());
+        AddAvatarToProto(avatar, proto.AvatarSync);
 
         SetData(proto);
     }
@@ -184,5 +183,13 @@ public class PacketPlayerSyncScNotify : BasePacket
                 notify.MaterialList.Add(item.ToMaterialProto());
                 break;
         }
+    }
+
+    private static void AddAvatarToProto(BaseAvatarInfo avatar, AvatarSync sync)
+    {
+        sync.AvatarList.Add(avatar.ToProto());
+
+        if (avatar is FormalAvatarInfo formalAvatar)
+            sync.AvatarPathDataInfoList.Add(formalAvatar.ToAvatarPathProto());
     }
 }

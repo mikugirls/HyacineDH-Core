@@ -67,7 +67,6 @@ public class SceneSkillManager(PlayerInstance player) : BasePlayerManager(player
         var instance = res.Instance;
         var battleInfos = res.BattleInfos ?? [];
 
-        // LC 风格：只要有“真实命中目标”，就直接触发战斗（不依赖 ability task 里是否带 TriggerBattle）
         if (instance == null && hitTargetIds.Count > 0)
         {
             instance = await Player.BattleManager!.StartBattle(attackEntity, targetEntities, req.SkillIndex == 1,

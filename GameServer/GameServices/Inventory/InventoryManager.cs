@@ -914,32 +914,49 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
         await Player.SendPacket(new PacketPlayerSyncScNotify(avatarData, itemData));
     }
 
-    public async ValueTask<List<ItemData>> LevelUpAvatar(int baseAvatarId, ItemCostData item)
+    public async ValueTask<LevelUpResult> LevelUpAvatar(int baseAvatarId, ItemCostData item)
     {
-        var avatarData = Player.AvatarManager!.GetFormalAvatar(baseAvatarId);
-        if (avatarData == null) return [];
-        GameData.AvatarConfigData.TryGetValue(avatarData.AvatarId, out var avatarConfig);
-        if (avatarConfig == null) return [];
+        if (item.ItemList.Count == 0) return LevelUpResult.Fail(Retcode.RetItemNoCost);
 
-        GameData.AvatarPromotionConfigData.TryGetValue(avatarData.AvatarId * 10 + avatarData.Promotion,
-            out var promotionConfig);
-        if (promotionConfig == null) return [];
+        var avatarData = Player.AvatarManager!.GetFormalAvatar(baseAvatarId);
+        if (avatarData == null) return LevelUpResult.Fail(Retcode.RetAvatarNotExist);
+        GameData.AvatarConfigData.TryGetValue(avatarData.AvatarId, out var avatarConfig);
+        if (avatarConfig == null) return LevelUpResult.Fail(Retcode.RetAvatarNotExist);
+
+        if (!GameData.AvatarPromotionConfigData.TryGetValue(avatarData.AvatarId * 10 + avatarData.Promotion,
+                out var promotionConfig))
+            promotionConfig = GameData.AvatarPromotionConfigData.Values.FirstOrDefault(x =>
+                x.AvatarID == avatarData.AvatarId && x.Promotion == avatarData.Promotion);
+        if (promotionConfig == null) return LevelUpResult.Fail(Retcode.RetAvatarPromotionNotMeet);
+
+        var maxLevel = promotionConfig.MaxLevel;
+        if (avatarData.Level >= maxLevel && avatarData.Exp <= 0)
+            return LevelUpResult.Fail(Retcode.RetAvatarExpReachPromotionLimit);
+
         var exp = 0;
 
         foreach (var cost in item.ItemList)
         {
+            if (cost.PileItem == null) return LevelUpResult.Fail(Retcode.RetAvatarExpItemNotExist);
+            if (cost.PileItem.ItemNum <= 0) return LevelUpResult.Fail(Retcode.RetItemCountInvalid);
+
             GameData.ItemConfigData.TryGetValue((int)cost.PileItem.ItemId, out var itemConfig);
-            if (itemConfig == null) continue;
+            if (itemConfig == null || itemConfig.Exp <= 0) return LevelUpResult.Fail(Retcode.RetAvatarExpItemNotExist);
+
+            var invItem = GetItem((int)cost.PileItem.ItemId);
+            if (invItem == null || invItem.Count < (int)cost.PileItem.ItemNum)
+                return LevelUpResult.Fail(Retcode.RetAvatarResExpNotEnough);
+
             exp += itemConfig.Exp * (int)cost.PileItem.ItemNum;
         }
+        if (exp <= 0) return LevelUpResult.Fail(Retcode.RetAvatarExpItemNotExist);
 
         // payment
         var costScoin = exp / 10;
-        if (Player.Data.Scoin < costScoin) return [];
+        if (Player.Data.Scoin < costScoin) return LevelUpResult.Fail(Retcode.RetScoinNotEnough);
         foreach (var cost in item.ItemList) await RemoveItem((int)cost.PileItem.ItemId, (int)cost.PileItem.ItemNum);
         await RemoveItem(2, costScoin);
 
-        var maxLevel = promotionConfig.MaxLevel;
         var curExp = avatarData.Exp;
         var curLevel = avatarData.Level;
         var nextLevelExp = GameData.GetAvatarExpRequired(avatarConfig.ExpGroup, avatarData.Level);
@@ -969,8 +986,8 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
         while (leftover > 0)
         {
             var gain = false;
-            foreach (var expItem in GameData.EquipmentExpItemConfigData.Values.Reverse())
-                if (leftover >= expItem.ExpProvide)
+            foreach (var expItem in GameData.AvatarExpItemConfigData.Values.OrderByDescending(x => x.Exp))
+                if (leftover >= expItem.Exp)
                 {
                     // add
                     await PutItem(expItem.ItemID, 1);
@@ -988,7 +1005,7 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
                         list[expItem.ItemID] = i;
                     }
 
-                    leftover -= expItem.ExpProvide;
+                    leftover -= expItem.Exp;
                     gain = true;
                     break;
                 }
@@ -998,43 +1015,68 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
 
         if (list.Count > 0) await Player.SendPacket(new PacketPlayerSyncScNotify(list.Values.ToList()));
         await Player.SendPacket(new PacketPlayerSyncScNotify(avatarData));
-        return [.. list.Values];
+        return LevelUpResult.Success([.. list.Values]);
     }
 
     #endregion
 
     #region Levelup
 
-    public async ValueTask<List<ItemData>> LevelUpEquipment(int equipmentUniqueId, ItemCostData item)
+    public async ValueTask<LevelUpResult> LevelUpEquipment(int equipmentUniqueId, ItemCostData item)
     {
+        if (item.ItemList.Count == 0) return LevelUpResult.Fail(Retcode.RetItemNoCost);
+
         var itemData = Data.EquipmentItems.Find(x => x.UniqueId == equipmentUniqueId);
-        if (itemData == null) return [];
-        GameData.EquipmentPromotionConfigData.TryGetValue(itemData.ItemId * 10 + itemData.Promotion,
-            out var equipmentPromotionConfig);
+        if (itemData == null) return LevelUpResult.Fail(Retcode.RetEquipmentNotExist);
+
+        if (!GameData.EquipmentPromotionConfigData.TryGetValue(itemData.ItemId * 10 + itemData.Promotion,
+                out var equipmentPromotionConfig))
+            equipmentPromotionConfig = GameData.EquipmentPromotionConfigData.Values.FirstOrDefault(x =>
+                x.EquipmentID == itemData.ItemId && x.Promotion == itemData.Promotion);
+
         GameData.EquipmentConfigData.TryGetValue(itemData.ItemId, out var equipmentConfig);
-        if (equipmentConfig == null || equipmentPromotionConfig == null) return [];
+        if (equipmentConfig == null || equipmentPromotionConfig == null)
+            return LevelUpResult.Fail(Retcode.RetEquipmentNotExist);
+
+        if (itemData.Level >= equipmentPromotionConfig.MaxLevel && itemData.Exp <= 0)
+            return LevelUpResult.Fail(Retcode.RetEquipmentLevelReachMax);
+
         var exp = 0;
 
         foreach (var cost in item.ItemList)
             if (cost.PileItem == null)
             {
-                // TODO : add equipment
-                exp += 100;
+                if (cost.EquipmentUniqueId == 0) return LevelUpResult.Fail(Retcode.RetItemInvalid);
+                if ((int)cost.EquipmentUniqueId == equipmentUniqueId)
+                    return LevelUpResult.Fail(Retcode.RetEquipmentConsumeSelf);
+
+                var costItem = Data.EquipmentItems.Find(x => x.UniqueId == cost.EquipmentUniqueId);
+                if (costItem == null) return LevelUpResult.Fail(Retcode.RetEquipmentNotExist);
+                if (costItem.Locked) return LevelUpResult.Fail(Retcode.RetEquipmentLocked);
+
+                exp += GetEquipmentConsumeExp(costItem);
             }
             else
             {
+                if (cost.PileItem.ItemNum <= 0) return LevelUpResult.Fail(Retcode.RetItemCountInvalid);
+
                 GameData.ItemConfigData.TryGetValue((int)cost.PileItem.ItemId, out var itemConfig);
-                if (itemConfig == null) continue;
+                if (itemConfig == null || itemConfig.Exp <= 0) return LevelUpResult.Fail(Retcode.RetItemInvalid);
+
+                var invItem = GetItem((int)cost.PileItem.ItemId);
+                if (invItem == null || invItem.Count < (int)cost.PileItem.ItemNum)
+                    return LevelUpResult.Fail(Retcode.RetItemNotEnough);
+
                 exp += itemConfig.Exp * (int)cost.PileItem.ItemNum;
             }
+        if (exp <= 0) return LevelUpResult.Fail(Retcode.RetItemNoCost);
 
         // payment
         var costScoin = exp / 2;
-        if (Player.Data.Scoin < costScoin) return [];
+        if (Player.Data.Scoin < costScoin) return LevelUpResult.Fail(Retcode.RetScoinNotEnough);
         foreach (var cost in item.ItemList)
             if (cost.PileItem == null)
             {
-                // TODO : add equipment
                 var costItem = Data.EquipmentItems.Find(x => x.UniqueId == cost.EquipmentUniqueId);
                 if (costItem == null) continue;
                 await RemoveItem(costItem.ItemId, 1, (int)cost.EquipmentUniqueId);
@@ -1105,7 +1147,7 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
 
         if (list.Count > 0) await Player.SendPacket(new PacketPlayerSyncScNotify(list.Values.ToList()));
         await Player.SendPacket(new PacketPlayerSyncScNotify(itemData));
-        return [.. list.Values];
+        return LevelUpResult.Success([.. list.Values]);
     }
 
     public async ValueTask<bool> PromoteAvatar(int avatarId)
@@ -1395,4 +1437,28 @@ public class InventoryManager(PlayerInstance player) : BasePlayerManager(player)
     }
 
     #endregion
+
+    private static int GetEquipmentConsumeExp(ItemData item)
+    {
+        var exp = Math.Max(item.Exp, 0);
+
+        if (GameData.EquipmentConfigData.TryGetValue(item.ItemId, out var equipmentExcel))
+            for (var level = 1; level < item.Level; level++)
+                exp += Math.Max(GameData.GetEquipmentExpRequired(equipmentExcel.ExpType, level), 0);
+
+        return Math.Max(exp, 100);
+    }
+}
+
+public readonly record struct LevelUpResult(Retcode Retcode, List<ItemData> ReturnItems)
+{
+    public static LevelUpResult Success(List<ItemData>? returnItems = null)
+    {
+        return new LevelUpResult(Retcode.RetSucc, returnItems ?? []);
+    }
+
+    public static LevelUpResult Fail(Retcode code)
+    {
+        return new LevelUpResult(code, []);
+    }
 }

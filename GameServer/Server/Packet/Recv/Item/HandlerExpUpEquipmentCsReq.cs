@@ -11,8 +11,8 @@ public class HandlerExpUpEquipmentCsReq : Handler
     {
         var req = ExpUpEquipmentCsReq.Parser.ParseFrom(data);
         var player = connection.Player!;
-        var returnItem = await player.InventoryManager!.LevelUpEquipment((int)req.EquipmentUniqueId, req.CostData);
+        var result = await player.InventoryManager!.LevelUpEquipment((int)req.EquipmentUniqueId, req.CostData);
 
-        await connection.SendPacket(new PacketExpUpEquipmentScRsp(returnItem));
+        await connection.SendPacket(new PacketExpUpEquipmentScRsp(result.ReturnItems, result.Retcode));
     }
 }

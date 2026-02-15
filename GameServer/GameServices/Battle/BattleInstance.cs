@@ -31,16 +31,32 @@ public class BattleInstance(PlayerInstance player, LineupInfo lineup, List<Stage
         }
         else
         {
-            foreach (var id in monsters.Select(monster => monster.GetStageId()))
+            var addedStageIds = new HashSet<int>();
+
+            foreach (var monster in monsters)
             {
-                GameData.PlaneEventData.TryGetValue(id * 10 + player.Data.WorldLevel, out var planeEvent);
-                if (planeEvent == null) continue;
-                GameData.StageConfigData.TryGetValue(planeEvent.StageID, out var stage);
-                if (stage != null) Stages.Add(stage);
+                if (!TryResolveStageFromEvent(monster.GetStageId(), player.Data.WorldLevel, out var stage) ||
+                    stage == null)
+                    continue;
+                if (addedStageIds.Add(stage.StageID))
+                    Stages.Add(stage);
             }
 
+            // Fallback: some resources use base EventID in monster config while challenge injects custom IDs.
+            if (Stages.Count == 0)
+                foreach (var monster in monsters)
+                {
+                    if (!TryResolveStageFromEvent(monster.Info.EventID, player.Data.WorldLevel, out var stage) ||
+                        stage == null)
+                        continue;
+
+                    if (addedStageIds.Add(stage.StageID))
+                        Stages.Add(stage);
+                }
+
             EntityMonsters = monsters;
-            StageId = Stages[0].StageID;
+            if (Stages.Count > 0)
+                StageId = Stages[0].StageID;
         }
     }
 
@@ -316,5 +332,29 @@ public class BattleInstance(PlayerInstance player, LineupInfo lineup, List<Stage
 
         proto.BuffList.AddRange(Buffs.Select(buff => buff.ToProto(this)));
         return proto;
+    }
+
+    private static bool TryResolveStageFromEvent(int eventId, int worldLevel, out StageConfigExcel? stage)
+    {
+        stage = null;
+        if (eventId <= 0) return false;
+
+        if (GameData.PlaneEventData.TryGetValue(eventId * 10 + worldLevel, out var exactPlaneEvent) &&
+            GameData.StageConfigData.TryGetValue(exactPlaneEvent.StageID, out stage))
+            return true;
+
+        if (GameData.PlaneEventData.TryGetValue(eventId, out var directPlaneEvent) &&
+            GameData.StageConfigData.TryGetValue(directPlaneEvent.StageID, out stage))
+            return true;
+
+        if (GameData.StageConfigData.TryGetValue(eventId, out stage))
+            return true;
+
+        var fallbackPlaneEvent = GameData.PlaneEventData.Values.FirstOrDefault(x => x.EventID == eventId);
+        if (fallbackPlaneEvent != null &&
+            GameData.StageConfigData.TryGetValue(fallbackPlaneEvent.StageID, out stage))
+            return true;
+
+        return false;
     }
 }
