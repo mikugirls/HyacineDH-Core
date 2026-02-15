@@ -232,7 +232,9 @@ public class CommandJson : ICommand
             if (item.EquipAvatar <= 0) continue;
             var avatar = player.AvatarManager?.GetFormalAvatar(item.EquipAvatar);
             if (avatar == null) continue;
-            if (avatar.PathInfos.TryGetValue(item.EquipAvatar, out var pathInfo) && pathInfo.EquipId == item.UniqueId)
+            var pathInfo = avatar.PathInfos.GetValueOrDefault(item.EquipAvatar)
+                           ?? avatar.PathInfos.Values.FirstOrDefault(x => x.EquipId == item.UniqueId);
+            if (pathInfo != null && pathInfo.EquipId == item.UniqueId)
                 pathInfo.EquipId = 0;
             item.EquipAvatar = 0;
             MarkChanged(avatar);
@@ -243,7 +245,9 @@ public class CommandJson : ICommand
             if (item.EquipAvatar <= 0) continue;
             var avatar = player.AvatarManager?.GetFormalAvatar(item.EquipAvatar);
             if (avatar == null) continue;
-            if (avatar.PathInfos.TryGetValue(item.EquipAvatar, out var pathInfo))
+            var pathInfo = avatar.PathInfos.GetValueOrDefault(item.EquipAvatar)
+                           ?? avatar.PathInfos.Values.FirstOrDefault(x => x.Relic.Values.Contains(item.UniqueId));
+            if (pathInfo != null)
             {
                 var toRemoveSlots = pathInfo.Relic.Where(kv => kv.Value == item.UniqueId).Select(kv => kv.Key).ToList();
                 foreach (var slot in toRemoveSlots) pathInfo.Relic.Remove(slot);
@@ -272,9 +276,12 @@ public class CommandJson : ICommand
 
         if (data.Avatars == null || data.Avatars.Count == 0) return [];
 
-        foreach (var avatarJson in data.Avatars.Values)
+        foreach (var (avatarKey, avatarJson) in data.Avatars)
         {
-            var avatarId = avatarJson.AvatarId;
+            var avatarId = avatarJson.AvatarId > 0 ? avatarJson.AvatarId : avatarKey;
+            var baseAvatarId = GameData.MultiplePathAvatarConfigData.TryGetValue(avatarId, out var multiplePath)
+                ? multiplePath.BaseAvatarID
+                : avatarId;
 
             if (!GameData.AvatarConfigData.ContainsKey(avatarId))
             {
@@ -282,20 +289,25 @@ public class CommandJson : ICommand
                 continue;
             }
 
-            if (player.AvatarManager?.GetFormalAvatar(avatarId) == null)
+            if (player.AvatarManager?.GetFormalAvatar(baseAvatarId) == null)
             {
-                await player.InventoryManager!.AddItem(avatarId, 1, notify: false, sync: false);
+                await player.InventoryManager!.AddItem(baseAvatarId, 1, notify: false, sync: false);
             }
 
-            var avatar = player.AvatarManager?.GetFormalAvatar(avatarId);
+            var avatar = player.AvatarManager?.GetFormalAvatar(baseAvatarId);
             if (avatar == null) continue;
+            if (!avatar.PathInfos.ContainsKey(avatarId))
+            {
+                avatar.PathInfos[avatarId] = new PathInfo(avatarId);
+                avatar.PathInfos[avatarId].GetSkillTree();
+            }
 
             avatar.Level = Math.Clamp(avatarJson.Level, 1, 80);
             avatar.Promotion = avatarJson.Promotion > 0
                 ? Math.Clamp(avatarJson.Promotion, 0, 6)
                 : GameData.GetMinPromotionForLevel(avatar.Level);
 
-            var pathInfo = avatar.GetCurPathInfo();
+            var pathInfo = avatar.PathInfos[avatarId];
             pathInfo.Rank = Math.Clamp(avatarJson.Data?.Rank ?? 0, 0, 6);
 
             // skills: pointId -> level
@@ -307,7 +319,7 @@ public class CommandJson : ICommand
                     skillTree[pointId] = Math.Max(1, level);
             }
 
-            changed[avatarId] = avatar;
+            changed[avatar.BaseAvatarId] = avatar;
         }
 
         return [.. changed.Values];
@@ -319,14 +331,18 @@ public class CommandJson : ICommand
         List<FormalAvatarInfo> avatarChanged)
     {
         var importedItems = new List<ItemData>(Math.Max(16, (data.Relics?.Count ?? 0) + (data.Lightcones?.Count ?? 0)));
-        var avatarChangedMap = avatarChanged.ToDictionary(x => x.AvatarId, x => x);
+        var avatarChangedMap = avatarChanged.ToDictionary(x => x.BaseAvatarId, x => x);
 
-        FormalAvatarInfo? GetAvatar(int avatarId)
+        FormalAvatarInfo? GetAvatar(int pathOrBaseAvatarId)
         {
-            if (avatarChangedMap.TryGetValue(avatarId, out var existing)) return existing;
-            var avatar = player.AvatarManager?.GetFormalAvatar(avatarId);
+            var baseAvatarId = GameData.MultiplePathAvatarConfigData.TryGetValue(pathOrBaseAvatarId, out var multiPath)
+                ? multiPath.BaseAvatarID
+                : pathOrBaseAvatarId;
+
+            if (avatarChangedMap.TryGetValue(baseAvatarId, out var existing)) return existing;
+            var avatar = player.AvatarManager?.GetFormalAvatar(baseAvatarId);
             if (avatar == null) return null;
-            avatarChangedMap[avatarId] = avatar;
+            avatarChangedMap[baseAvatarId] = avatar;
             return avatar;
         }
 
@@ -347,6 +363,9 @@ public class CommandJson : ICommand
                 if (!GameData.ItemConfigData.TryGetValue(relic.RelicId, out var itemConfig) ||
                     itemConfig.ItemMainType != ItemMainTypeEnum.Relic)
                     continue;
+                if (!GameData.RelicMainAffixData.TryGetValue(relicConfig.MainAffixGroup, out var mainAffixGroup) ||
+                    mainAffixGroup.Count == 0)
+                    continue;
 
                 var subAffixes = new List<ItemSubAffix>(relic.SubAffixes?.Count ?? 0);
                 if (relic.SubAffixes != null &&
@@ -363,11 +382,15 @@ public class CommandJson : ICommand
                         });
                     }
 
+                var mainAffixId = mainAffixGroup.ContainsKey(relic.MainAffixId)
+                    ? relic.MainAffixId
+                    : mainAffixGroup.Keys.First();
+
                 var item = await player.InventoryManager!.PutItem(
                     relic.RelicId,
                     1,
-                    level: Math.Max(0, relic.Level),
-                    mainAffix: relic.MainAffixId,
+                    level: Math.Clamp(relic.Level, 0, relicConfig.MaxLevel),
+                    mainAffix: mainAffixId,
                     subAffixes: subAffixes,
                     uniqueId: ++player.InventoryManager.Data.NextUniqueId);
 
@@ -375,13 +398,16 @@ public class CommandJson : ICommand
 
                 if (relic.EquipAvatar > 0)
                 {
-                    var avatar = GetAvatar(relic.EquipAvatar);
+                    var targetPathId = relic.EquipAvatar;
+                    if (!GameData.AvatarConfigData.ContainsKey(targetPathId)) continue;
+
+                    var avatar = GetAvatar(targetPathId);
                     if (avatar == null) continue;
 
-                    EnsurePath(avatar, relic.EquipAvatar);
+                    EnsurePath(avatar, targetPathId);
                     var slot = (int)relicConfig.Type;
-                    avatar.PathInfos[relic.EquipAvatar].Relic[slot] = item.UniqueId;
-                    item.EquipAvatar = avatar.AvatarId;
+                    avatar.PathInfos[targetPathId].Relic[slot] = item.UniqueId;
+                    item.EquipAvatar = targetPathId;
                 }
             }
         }
@@ -393,12 +419,14 @@ public class CommandJson : ICommand
                 if (!GameData.ItemConfigData.TryGetValue(lightcone.ItemId, out var itemConfig) ||
                     itemConfig.ItemMainType != ItemMainTypeEnum.Equipment)
                     continue;
+                if (!GameData.EquipmentConfigData.TryGetValue(lightcone.ItemId, out var equipmentConfig))
+                    continue;
 
                 var item = await player.InventoryManager!.PutItem(
                     lightcone.ItemId,
                     1,
-                    rank: Math.Clamp(lightcone.Rank, 1, 5),
-                    promotion: Math.Max(0, lightcone.Promotion),
+                    rank: Math.Clamp(lightcone.Rank, 1, Math.Max(1, equipmentConfig.MaxRank)),
+                    promotion: Math.Clamp(lightcone.Promotion, 0, Math.Max(0, equipmentConfig.MaxPromotion)),
                     level: Math.Clamp(lightcone.Level, 1, 80),
                     uniqueId: ++player.InventoryManager.Data.NextUniqueId);
 
@@ -406,11 +434,14 @@ public class CommandJson : ICommand
 
                 if (lightcone.EquipAvatar > 0)
                 {
-                    var avatar = GetAvatar(lightcone.EquipAvatar);
+                    var targetPathId = lightcone.EquipAvatar;
+                    if (!GameData.AvatarConfigData.ContainsKey(targetPathId)) continue;
+
+                    var avatar = GetAvatar(targetPathId);
                     if (avatar == null) continue;
-                    EnsurePath(avatar, lightcone.EquipAvatar);
-                    avatar.PathInfos[lightcone.EquipAvatar].EquipId = item.UniqueId;
-                    item.EquipAvatar = avatar.AvatarId;
+                    EnsurePath(avatar, targetPathId);
+                    avatar.PathInfos[targetPathId].EquipId = item.UniqueId;
+                    item.EquipAvatar = targetPathId;
                 }
             }
         }

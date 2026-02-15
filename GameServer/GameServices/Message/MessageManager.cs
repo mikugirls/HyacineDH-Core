@@ -74,7 +74,7 @@ public class MessageManager(PlayerInstance player) : BasePlayerManager(player)
 
     #region Action
 
-    public async ValueTask AddMessageSection(int sectionId)
+    public async ValueTask AddMessageSection(int sectionId, bool sendPacket = true)
     {
         GameData.MessageSectionConfigData.TryGetValue(sectionId, out var sectionConfig);
         if (sectionConfig == null) return;
@@ -84,7 +84,22 @@ public class MessageManager(PlayerInstance player) : BasePlayerManager(player)
             // already exist
             return;
 
-        foreach (var item in sectionConfig.StartMessageItemIDList) await AddMessageItem(item);
+        foreach (var item in sectionConfig.StartMessageItemIDList) await AddMessageItem(item, sendPacket);
+    }
+
+    public async ValueTask BootstrapStandaloneMode()
+    {
+        if (Data.Groups.Count > 0) return;
+
+        foreach (var groupConfig in GameData.MessageGroupConfigData.Values.OrderBy(x => x.ID))
+        {
+            var firstSectionId = groupConfig.MessageSectionIDList.FirstOrDefault(sectionId =>
+                GameData.MessageSectionConfigData.TryGetValue(sectionId, out var sectionConfig) &&
+                sectionConfig.StartMessageItemIDList.Count > 0);
+
+            if (firstSectionId != 0)
+                await AddMessageSection(firstSectionId, false);
+        }
     }
 
     public async ValueTask AddMessageItem(int itemId, bool sendPacket = true)

@@ -219,6 +219,10 @@ public partial class PlayerInstance(PlayerData data)
 
         if (ConfigManager.Config.ServerOption.EnableMission) await MissionManager!.AcceptMainMissionByCondition();
 
+        if (!ConfigManager.Config.ServerOption.EnableMission &&
+            ConfigManager.Config.ServerOption.EnableMessage)
+            await MessageManager!.BootstrapStandaloneMode();
+
         foreach (var friendDevelopmentInfoPb in FriendRecordData.DevelopmentInfos.ToArray())
             if (Extensions.GetUnixSec() - friendDevelopmentInfoPb.Time >=
                 TimeSpan.TicksPerDay * 7 / TimeSpan.TicksPerSecond)

@@ -118,18 +118,28 @@ public class CommandGiveall : ICommand
 
         arg.CharacterArgs.TryGetValue("x", out var amountStr);
         amountStr ??= "1";
-        if (!int.TryParse(amountStr, out var amount))
+        if (!int.TryParse(amountStr, out var amount) || amount <= 0)
         {
             await arg.SendMsg(I18NManager.Translate("Game.Command.Notice.InvalidArguments"));
             return;
         }
 
+        var consumableUsableSubTypes = new HashSet<ItemSubTypeEnum>
+        {
+            ItemSubTypeEnum.Food,
+            ItemSubTypeEnum.Book,
+            ItemSubTypeEnum.FindChest,
+            ItemSubTypeEnum.Gift,
+            ItemSubTypeEnum.ForceOpitonalGift
+        };
+
         var materialList = GameData.ItemConfigData.Values;
         var items = new List<ItemData>();
         foreach (var material in materialList)
-            if (material.ItemMainType == ItemMainTypeEnum.Material ||
-                material.ItemSubType == ItemSubTypeEnum.Food ||
-                material.ItemSubType == ItemSubTypeEnum.FindChest)
+            if (material.ID > 0 && material.PileLimit > 0 &&
+                ((material.ItemMainType == ItemMainTypeEnum.Material) ||
+                 (material.ItemMainType == ItemMainTypeEnum.Usable &&
+                  consumableUsableSubTypes.Contains(material.ItemSubType))))
                 items.Add(new ItemData
                 {
                     ItemId = material.ID,
