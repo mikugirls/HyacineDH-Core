@@ -1,20 +1,6 @@
 {
   "Region": "None",
   "HotfixData": {
-    "CN3.8.5X": {
-      "AssetBundleUrl": "",
-      "ExAssetBundleUrl": "",
-      "ExResourceUrl": "",
-      "LuaUrl": "",
-      "IfixUrl": ""
-    },
-    "OS3.8.5X": {
-      "AssetBundleUrl": "",
-      "ExAssetBundleUrl": "",
-      "ExResourceUrl": "",
-      "LuaUrl": "",
-      "IfixUrl": ""
-    },
     "CN4.0.0": {
       "AssetBundleUrl": "",
       "ExAssetBundleUrl": "",
@@ -23,11 +9,11 @@
       "IfixUrl": ""
     },
     "OS4.0.0": {
-      "AssetBundleUrl": "",
+      "AssetBundleUrl": "asb/V4.0Live/output_14002058_83ee9d3884b0_c09898574b2528",
       "ExAssetBundleUrl": "",
-      "ExResourceUrl": "",
-      "LuaUrl": "",
-      "IfixUrl": ""
+      "ExResourceUrl": "design_data/V4.0Live/output_14115315_33c4e418754e_a42fc9e04473ff",
+      "LuaUrl": "lua/V4.0Live/output_14113962_43e20736cdc3_527c880887be60",
+      "IfixUrl": "ifix/V4.0Live/output_14113737_87337094aab1_3898fb5cc3d2bd"
     }
   }
 }
