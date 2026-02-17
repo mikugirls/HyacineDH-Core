@@ -80,7 +80,7 @@ public class ServerOption
     public bool EnableMessage { get; set; } = true; // works independently from mission
     public bool EnableQuest { get; set; } = true; // experimental
     public bool AutoLightSection { get; set; } = true;
-    public string Language { get; set; } = "EN";
+    public string Language { get; set; } = "CHS";
     public string FallbackLanguage { get; set; } = "EN";
     public HashSet<string> DefaultPermissions { get; set; } = ["*"];
     public ServerAnnounce ServerAnnounce { get; set; } = new();
