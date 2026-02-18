@@ -11,7 +11,7 @@ public class HandlerSwitchHandResetHandPosCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        var req = SwitchHandResetHandPosCsReq.Parser.ParseFrom(data);
+        var req = SwitchHandResetTransformCsReq.Parser.ParseFrom(data);
 
         var component = connection.Player!.GetComponent<SwitchHandComponent>();
 
@@ -22,8 +22,8 @@ public class HandlerSwitchHandResetHandPosCsReq : Handler
         }
         else
         {
-            info.Item2.Pos = req.HandMotion.Pos.ToPosition();
-            info.Item2.Rot = req.HandMotion.Rot.ToPosition();
+            info.Item2.Pos = req.PKGLJDIHGCC.Pos.ToPosition();
+            info.Item2.Rot = req.PKGLJDIHGCC.Rot.ToPosition();
 
             await connection.SendPacket(new PacketSwitchHandResetHandPosScRsp(info.Item2));
         }

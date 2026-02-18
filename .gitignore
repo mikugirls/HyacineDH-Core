@@ -1,0 +1,42 @@
+# ----------------------------
+# Build artifacts (.NET/C#)
+# ----------------------------
+**/[Bb]in/
+**/[Oo]bj/
+artifacts/
+TestResults/
+*.nupkg
+*.snupkg
+
+# ----------------------------
+# IDE / editor temporary files
+# ----------------------------
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# ----------------------------
+# Runtime logs / cache / local state
+# ----------------------------
+Config/Logs/
+Config/Database/
+*.log
+*.log.*
+
+# SQLite / local db runtime files
+*.db
+*.db-shm
+*.db-wal
+
+# ----------------------------
+# OS junk
+# ----------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+

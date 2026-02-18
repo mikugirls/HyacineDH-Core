@@ -14,7 +14,7 @@ public class PacketMusicRhythmDataScRsp : BasePacket
         };
 
         foreach (var level in GameData.MusicRhythmLevelData.Values)
-            proto.MusicLevel.Add(new MusicRhythmLevel
+            proto.LevelDataList.Add(new MusicRhythmLevel
             {
                 LevelId = (uint)level.GetId(),
                 FullCombo = true,

@@ -10,7 +10,7 @@ public class PacketMusicRhythmUnlockTrackScNotify : BasePacket
     {
         var proto = new MusicRhythmUnlockTrackScNotify();
 
-        foreach (var sfx in GameData.MusicRhythmTrackData.Values) proto.TrackUnlockList.Add((uint)sfx.GetId());
+        foreach (var sfx in GameData.MusicRhythmTrackData.Values) proto.IELLAKHIONO.Add((uint)sfx.GetId());
 
         SetData(proto);
     }

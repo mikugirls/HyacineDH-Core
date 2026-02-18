@@ -19,7 +19,10 @@ public class PacketChallengeBossPhaseSettleNotify : BasePacket
             ScoreTwo = challenge.Data.Boss.ScoreStage2,
             Star = challenge.Data.Boss.Stars,
             Phase = (uint)challenge.Data.Boss.CurrentStage,
-            IsReward = isReward
+            IsReward = isReward,
+            // 1 = final/result page, 2 = phase settle page (continue to next node).
+            PageType = isReward ? 1u : 2u,
+            IsSecondHalf = challenge.Data.Boss.CurrentStage >= 2
         };
 
         proto.BattleTargetList.AddRange(targetLists?.BattleTargetList_ ?? []);

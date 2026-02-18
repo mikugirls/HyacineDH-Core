@@ -10,9 +10,10 @@ public class HandlerPlayBackGroundMusicCsReq : Handler
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
         var req = PlayBackGroundMusicCsReq.Parser.ParseFrom(data);
+        var musicId = req.KAKPHEDCGEL?.DLLEMEJFJJF?.Id ?? 0;
 
-        connection.Player!.Data.CurrentBgm = (int)req.PlayMusicId;
+        connection.Player!.Data.CurrentBgm = (int)musicId;
 
-        await connection.SendPacket(new PacketPlayBackGroundMusicScRsp(req.PlayMusicId));
+        await connection.SendPacket(new PacketPlayBackGroundMusicScRsp(musicId));
     }
 }

@@ -11,7 +11,7 @@ public class PacketGetFriendRecommendListInfoScRsp : BasePacket
     {
         var proto = new GetFriendRecommendListInfoScRsp
         {
-            PlayerInfoList =
+            FriendRecommendList =
             {
                 friends.Select(x => new FriendRecommendInfo
                 {
