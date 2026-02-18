@@ -3,12 +3,12 @@ namespace HyacineCore.Server.Util
     public static class IConsole
     {
         public const string PrefixContent = "[HyacineCore]> "; // "[HyacineCore]> "; Before execute command
-        private const string PinkColor = "\e[38;2;255;192;203m";
+        private const string PromptColor = "\e[38;2;244;169;189m";
         private const string RedColor = "\e[38;2;255;0;0m";
         private const string ResetColor = "\e[0m";
 
         // coloured prefix
-        public static string Prefix => $"{(IsCommandValid ? ResetColor : RedColor)}{PrefixContent}{ResetColor}";
+        public static string Prefix => $"{(IsCommandValid ? PromptColor : RedColor)}{PrefixContent}{ResetColor}";
 
         public static bool IsCommandValid { get; private set; } = true;
         private const int HistoryMaxCount = 10;

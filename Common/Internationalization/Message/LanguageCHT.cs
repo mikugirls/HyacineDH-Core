@@ -97,6 +97,7 @@ public class WordTextCHT
 
     public string DatabaseAccount => "數據庫賬號";
     public string Tutorial => "教程";
+    public GameDataItemsTextCHT GameDataItems { get; } = new();
 }
 
 #endregion
@@ -566,5 +567,122 @@ public class GridTextCHT
 #endregion
 
 #endregion
+
+public class GameDataItemsTextCHT
+{
+    public string AchievementDataData => "成就數據";
+    public string ActivityConfig => "活動配置";
+    public string AdventureAbilityConfigListData => "冒險能力配置列表";
+    public string AdventureModifierData => "冒險修飾器數據";
+    public string AdventurePlayerData => "冒險角色數據";
+    public string AvatarConfigData => "角色配置數據";
+    public string AvatarDemoConfigData => "角色試用配置數據";
+    public string AvatarExpItemConfigData => "角色經驗道具配置";
+    public string AvatarGlobalBuffConfigData => "角色全局增益配置";
+    public string AvatarPromotionConfigData => "角色晉階配置";
+    public string AvatarRelicRecommendData => "角色遺器推薦數據";
+    public string AvatarSkillTreeConfigData => "角色技能樹配置";
+    public string AvatarSkinData => "角色皮膚數據";
+    public string BackGroundMusicData => "背景音樂數據";
+    public string BannersConfig => "卡池配置";
+    public string BattleCollegeConfigData => "戰鬥教學配置";
+    public string BattleTargetConfigData => "戰鬥目標配置";
+    public string ChallengeConfigData => "挑戰配置數據";
+    public string ChallengeGroupData => "挑戰分組數據";
+    public string ChallengePeakBossConfigData => "巔峰挑戰首領配置";
+    public string ChallengePeakConfigData => "巔峰挑戰配置";
+    public string ChallengePeakGroupConfigData => "巔峰挑戰分組配置";
+    public string ChallengePeakOverrideConfig => "巔峰挑戰覆蓋配置";
+    public string ChallengeRewardData => "挑戰獎勵數據";
+    public string ChallengeTargetData => "挑戰目標數據";
+    public string CharacterConfigInfoData => "角色配置詳情";
+    public string ChatBubbleConfigData => "聊天氣泡配置";
+    public string CocoonConfigData => "凝滯虛影配置";
+    public string ContentPackageConfigData => "內容包配置";
+    public string DailyQuestConfigData => "每日任務配置";
+    public string DecideAvatarOrderData => "角色出場順序配置";
+    public string EquipmentConfigData => "光錐配置數據";
+    public string EquipmentExpItemConfigData => "光錐經驗道具配置";
+    public string EquipmentExpTypeData => "光錐經驗類型數據";
+    public string EquipmentPromotionConfigData => "光錐晉階配置";
+    public string ExpTypeData => "經驗類型數據";
+    public string FinishWayData => "完成方式數據";
+    public string FloorInfoData => "樓層資訊數據";
+    public string FuncUnlockDataData => "功能解鎖數據";
+    public string GroupSystemUnlockDataData => "系統分組解鎖數據";
+    public string HeartDialDialogueData => "情緒撥號對話數據";
+    public string HeartDialScriptData => "情緒撥號腳本數據";
+    public string InteractConfigData => "交互配置數據";
+    public string ItemComposeConfigData => "道具合成配置";
+    public string ItemConfigData => "道具配置數據";
+    public string ItemUseBuffDataData => "道具使用增益數據";
+    public string ItemUseDataData => "道具使用數據";
+    public string MainMissionData => "主任務數據";
+    public string MapEntranceData => "地圖入口數據";
+    public string MappingInfoData => "映射資訊數據";
+    public string MarbleMatchInfoData => "彈珠匹配資訊";
+    public string MarbleSealData => "彈珠封印數據";
+    public string MatchThreeBirdData => "三消小鳥數據";
+    public string MatchThreeLevelData => "三消關卡數據";
+    public string MazeBuffData => "迷宮增益數據";
+    public string MazeChestData => "迷宮寶箱數據";
+    public string MazePlaneData => "迷宮位面數據";
+    public string MazePropData => "迷宮物件數據";
+    public string MazePuzzleSwitchHandData => "迷宮謎題換手數據";
+    public string MazeSkillData => "迷宮技能數據";
+    public string MessageContactsConfigData => "短信聯絡人配置";
+    public string MessageGroupConfigData => "短信分組配置";
+    public string MessageItemConfigData => "短信條目配置";
+    public string MessageSectionConfigData => "短信章節配置";
+    public string MonsterConfigData => "怪物配置數據";
+    public string MonsterDropData => "怪物掉落數據";
+    public string MonsterTemplateConfigData => "怪物模板配置";
+    public string MultiplePathAvatarConfigData => "多命途角色配置";
+    public string MusicRhythmGroupData => "音律演奏分組數據";
+    public string MusicRhythmLevelData => "音律演奏關卡數據";
+    public string MusicRhythmPhaseData => "音律演奏階段數據";
+    public string MusicRhythmSongData => "音律演奏曲目數據";
+    public string MusicRhythmSoundEffectData => "音律演奏音效數據";
+    public string MusicRhythmTrackData => "音律演奏軌道數據";
+    public string NpcDataData => "NPC數據";
+    public string NpcMonsterDataData => "NPC怪物數據";
+    public string OfferingLevelConfigData => "供奉等級配置";
+    public string OfferingTypeConfigData => "供奉類型配置";
+    public string PamSkinConfigData => "帕姆皮膚配置";
+    public string PerformanceDData => "演出D數據";
+    public string PerformanceEData => "演出E數據";
+    public string PetData => "寵物數據";
+    public string PlaneEventData => "位面事件數據";
+    public string PlayerLevelConfigData => "玩家等級配置";
+    public string QuestDataData => "任務數據";
+    public string RaidConfigData => "副本配置數據";
+    public string RechargeConfigData => "充值配置數據";
+    public string RechargeGiftConfigData => "充值禮包配置";
+    public string RelicConfigData => "遺器配置數據";
+    public string RelicExpItemData => "遺器經驗道具數據";
+    public string RelicExpTypeData => "遺器經驗類型數據";
+    public string RelicMainAffixData => "遺器主詞條數據";
+    public string RelicSubAffixData => "遺器副詞條數據";
+    public string RewardDataData => "獎勵數據";
+    public string RollShopConfigData => "輪換商店配置";
+    public string RollShopRewardData => "輪換商店獎勵";
+    public string SceneRainbowGroupPropertyData => "場景彩虹組屬性配置";
+    public string ShopConfigData => "商店配置數據";
+    public string SpecialAvatarData => "特殊角色數據";
+    public string SpecialAvatarRelicData => "特殊角色遺器數據";
+    public string StageConfigData => "關卡配置數據";
+    public string StoryLineData => "劇情線數據";
+    public string StoryLineFloorDataData => "劇情線樓層數據";
+    public string StroyLineTrialAvatarDataData => "劇情線試用角色數據";
+    public string SubMissionData => "子任務數據";
+    public string SubMissionInfoData => "子任務資訊數據";
+    public string SummonUnitDataData => "召喚單位數據";
+    public string TutorialDataData => "教程數據";
+    public string TutorialGuideDataData => "教程引導數據";
+    public string UpgradeAvatarEquipmentData => "升級角色光錐數據";
+    public string UpgradeAvatarSubRelicData => "升級角色遺器副詞條數據";
+    public string UpgradeAvatarSubTypeData => "升級角色副類型數據";
+    public string VideoKeysConfig => "視頻密鑰配置";
+}
 
 

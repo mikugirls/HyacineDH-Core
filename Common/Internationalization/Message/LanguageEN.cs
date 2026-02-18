@@ -97,6 +97,7 @@ public class WordTextEN
 
     public string DatabaseAccount => "Database Account";
     public string Tutorial => "Tutorial";
+    public GameDataItemsTextEN GameDataItems { get; } = new();
 }
 
 #endregion
@@ -569,4 +570,120 @@ public class GridTextEN
 
 #endregion
 
+public class GameDataItemsTextEN
+{
+    public string AchievementDataData => "AchievementDataData";
+    public string ActivityConfig => "ActivityConfig";
+    public string AdventureAbilityConfigListData => "AdventureAbilityConfigListData";
+    public string AdventureModifierData => "AdventureModifierData";
+    public string AdventurePlayerData => "AdventurePlayerData";
+    public string AvatarConfigData => "AvatarConfigData";
+    public string AvatarDemoConfigData => "AvatarDemoConfigData";
+    public string AvatarExpItemConfigData => "AvatarExpItemConfigData";
+    public string AvatarGlobalBuffConfigData => "AvatarGlobalBuffConfigData";
+    public string AvatarPromotionConfigData => "AvatarPromotionConfigData";
+    public string AvatarRelicRecommendData => "AvatarRelicRecommendData";
+    public string AvatarSkillTreeConfigData => "AvatarSkillTreeConfigData";
+    public string AvatarSkinData => "AvatarSkinData";
+    public string BackGroundMusicData => "BackGroundMusicData";
+    public string BannersConfig => "BannersConfig";
+    public string BattleCollegeConfigData => "BattleCollegeConfigData";
+    public string BattleTargetConfigData => "BattleTargetConfigData";
+    public string ChallengeConfigData => "ChallengeConfigData";
+    public string ChallengeGroupData => "ChallengeGroupData";
+    public string ChallengePeakBossConfigData => "ChallengePeakBossConfigData";
+    public string ChallengePeakConfigData => "ChallengePeakConfigData";
+    public string ChallengePeakGroupConfigData => "ChallengePeakGroupConfigData";
+    public string ChallengePeakOverrideConfig => "ChallengePeakOverrideConfig";
+    public string ChallengeRewardData => "ChallengeRewardData";
+    public string ChallengeTargetData => "ChallengeTargetData";
+    public string CharacterConfigInfoData => "CharacterConfigInfoData";
+    public string ChatBubbleConfigData => "ChatBubbleConfigData";
+    public string CocoonConfigData => "CocoonConfigData";
+    public string ContentPackageConfigData => "ContentPackageConfigData";
+    public string DailyQuestConfigData => "DailyQuestConfigData";
+    public string DecideAvatarOrderData => "DecideAvatarOrderData";
+    public string EquipmentConfigData => "EquipmentConfigData";
+    public string EquipmentExpItemConfigData => "EquipmentExpItemConfigData";
+    public string EquipmentExpTypeData => "EquipmentExpTypeData";
+    public string EquipmentPromotionConfigData => "EquipmentPromotionConfigData";
+    public string ExpTypeData => "ExpTypeData";
+    public string FinishWayData => "FinishWayData";
+    public string FloorInfoData => "FloorInfoData";
+    public string FuncUnlockDataData => "FuncUnlockDataData";
+    public string GroupSystemUnlockDataData => "GroupSystemUnlockDataData";
+    public string HeartDialDialogueData => "HeartDialDialogueData";
+    public string HeartDialScriptData => "HeartDialScriptData";
+    public string InteractConfigData => "InteractConfigData";
+    public string ItemComposeConfigData => "ItemComposeConfigData";
+    public string ItemConfigData => "ItemConfigData";
+    public string ItemUseBuffDataData => "ItemUseBuffDataData";
+    public string ItemUseDataData => "ItemUseDataData";
+    public string MainMissionData => "MainMissionData";
+    public string MapEntranceData => "MapEntranceData";
+    public string MappingInfoData => "MappingInfoData";
+    public string MarbleMatchInfoData => "MarbleMatchInfoData";
+    public string MarbleSealData => "MarbleSealData";
+    public string MatchThreeBirdData => "MatchThreeBirdData";
+    public string MatchThreeLevelData => "MatchThreeLevelData";
+    public string MazeBuffData => "MazeBuffData";
+    public string MazeChestData => "MazeChestData";
+    public string MazePlaneData => "MazePlaneData";
+    public string MazePropData => "MazePropData";
+    public string MazePuzzleSwitchHandData => "MazePuzzleSwitchHandData";
+    public string MazeSkillData => "MazeSkillData";
+    public string MessageContactsConfigData => "MessageContactsConfigData";
+    public string MessageGroupConfigData => "MessageGroupConfigData";
+    public string MessageItemConfigData => "MessageItemConfigData";
+    public string MessageSectionConfigData => "MessageSectionConfigData";
+    public string MonsterConfigData => "MonsterConfigData";
+    public string MonsterDropData => "MonsterDropData";
+    public string MonsterTemplateConfigData => "MonsterTemplateConfigData";
+    public string MultiplePathAvatarConfigData => "MultiplePathAvatarConfigData";
+    public string MusicRhythmGroupData => "MusicRhythmGroupData";
+    public string MusicRhythmLevelData => "MusicRhythmLevelData";
+    public string MusicRhythmPhaseData => "MusicRhythmPhaseData";
+    public string MusicRhythmSongData => "MusicRhythmSongData";
+    public string MusicRhythmSoundEffectData => "MusicRhythmSoundEffectData";
+    public string MusicRhythmTrackData => "MusicRhythmTrackData";
+    public string NpcDataData => "NpcDataData";
+    public string NpcMonsterDataData => "NpcMonsterDataData";
+    public string OfferingLevelConfigData => "OfferingLevelConfigData";
+    public string OfferingTypeConfigData => "OfferingTypeConfigData";
+    public string PamSkinConfigData => "PamSkinConfigData";
+    public string PerformanceDData => "PerformanceDData";
+    public string PerformanceEData => "PerformanceEData";
+    public string PetData => "PetData";
+    public string PlaneEventData => "PlaneEventData";
+    public string PlayerLevelConfigData => "PlayerLevelConfigData";
+    public string QuestDataData => "QuestDataData";
+    public string RaidConfigData => "RaidConfigData";
+    public string RechargeConfigData => "RechargeConfigData";
+    public string RechargeGiftConfigData => "RechargeGiftConfigData";
+    public string RelicConfigData => "RelicConfigData";
+    public string RelicExpItemData => "RelicExpItemData";
+    public string RelicExpTypeData => "RelicExpTypeData";
+    public string RelicMainAffixData => "RelicMainAffixData";
+    public string RelicSubAffixData => "RelicSubAffixData";
+    public string RewardDataData => "RewardDataData";
+    public string RollShopConfigData => "RollShopConfigData";
+    public string RollShopRewardData => "RollShopRewardData";
+    public string SceneRainbowGroupPropertyData => "SceneRainbowGroupPropertyData";
+    public string ShopConfigData => "ShopConfigData";
+    public string SpecialAvatarData => "SpecialAvatarData";
+    public string SpecialAvatarRelicData => "SpecialAvatarRelicData";
+    public string StageConfigData => "StageConfigData";
+    public string StoryLineData => "StoryLineData";
+    public string StoryLineFloorDataData => "StoryLineFloorDataData";
+    public string StroyLineTrialAvatarDataData => "StroyLineTrialAvatarDataData";
+    public string SubMissionData => "SubMissionData";
+    public string SubMissionInfoData => "SubMissionInfoData";
+    public string SummonUnitDataData => "SummonUnitDataData";
+    public string TutorialDataData => "TutorialDataData";
+    public string TutorialGuideDataData => "TutorialGuideDataData";
+    public string UpgradeAvatarEquipmentData => "UpgradeAvatarEquipmentData";
+    public string UpgradeAvatarSubRelicData => "UpgradeAvatarSubRelicData";
+    public string UpgradeAvatarSubTypeData => "UpgradeAvatarSubTypeData";
+    public string VideoKeysConfig => "VideoKeysConfig";
+}
 

@@ -86,7 +86,8 @@
       "ShowKcpHandShake": true,
       "ShowTimeInLog": true,
       "DisableLogDetailPacket": false,
-      "SavePersonalDebugFile": false
+      "SavePersonalDebugFile": false,
+      "ShowResourceCacheLoadingItemLog": true
     },
     "ServerConfig": {
       "RunDispatch": true,

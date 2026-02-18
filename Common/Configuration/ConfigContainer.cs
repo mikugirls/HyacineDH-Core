@@ -153,6 +153,7 @@ public class LogOption
     public bool ShowTimeInLog { get; set; } = true;
     public bool DisableLogDetailPacket { get; set; } = false;
     public bool SavePersonalDebugFile { get; set; } = false;
+    public bool ShowResourceCacheLoadingItemLog { get; set; } = true;
 }
 
 public class ServerAnnounce

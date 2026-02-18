@@ -10,10 +10,12 @@
 
 ## 📦快速開始
 需求：.NET 9.0 [點選下載](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
-『`bash
+
+```bash
 git clone https://github.com/DBKAHHK/HyacineDH-Core.git
 cd HyacineDH-Core
 dotnet run
+
 ```
 
 ## 📝使用說明

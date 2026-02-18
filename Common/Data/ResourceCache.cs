@@ -172,7 +172,7 @@ public class ResourceCache
         }
     };
 
-    public static Logger Logger { get; } = new("ResCache"); // ShortName,it's ResourceCache
+    public static Logger Logger { get; } = new("ResCache"); //ResourceCache, but too long
     public static string CachePath { get; } = ConfigManager.Config.Path.ConfigPath + "/Resource.cache";
     public static bool IsComplete { get; set; } = true; // Custom in errors to ignore some error
 
@@ -201,7 +201,7 @@ public class ResourceCache
                     catch (Exception e)
                     {
                         failCount++;
-                        Logger.Error($"Failed to cache GameData.{prop.Name}", e);
+                        Logger.Error($"Failed to cache {GetLocalizedGameDataLabel(prop.Name)}", e);
                     }
                 }
 
@@ -240,8 +240,9 @@ public class ResourceCache
             {
                 try
                 {
-                    Logger.Info(I18NManager.Translate("Server.ServerInfo.LoadingItem",
-                        $"{prop.DeclaringType?.Name}.{prop.Name}"));
+                    if (ConfigManager.Config.ServerOption.LogOption.ShowResourceCacheLoadingItemLog)
+                        Logger.Info(I18NManager.Translate("Server.ServerInfo.LoadingItem",
+                            GetLocalizedGameDataLabel(prop.Name)));
                     if (!cacheData.GameDataValues.TryGetValue(prop.Name, out var valueBytes))
                         continue;
 
@@ -255,7 +256,7 @@ public class ResourceCache
                 {
                     failedCount++;
                     Logger.Error(I18NManager.Translate("Server.ServerInfo.FailedToLoadItem",
-                        $"{prop.DeclaringType?.Name}.{prop.Name}"));
+                        GetLocalizedGameDataLabel(prop.Name)));
                     Logger.Error(e.Message);
                 }
             }
@@ -351,6 +352,21 @@ public class ResourceCache
         }
 
         return true;
+    }
+
+    private static string GetLocalizedGameDataLabel(string propertyName)
+    {
+        return GetLocalizedGameDataItemName(propertyName);
+    }
+
+    private static string GetLocalizedGameDataItemName(string propertyName)
+    {
+        var key = $"Word.GameDataItems.{propertyName}";
+        var keyText = I18NManager.Translate(key);
+        if (!string.Equals(keyText, key, StringComparison.Ordinal))
+            return keyText;
+
+        return propertyName;
     }
 
     public static void ClearGameData()
