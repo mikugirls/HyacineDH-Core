@@ -10,17 +10,18 @@ public class PacketGetRechargeGiftInfoScRsp : BasePacket
     {
         var proto = new GetRechargeGiftInfoScRsp
         {
-            RechargeBenefitList =
+            JHAJHMJBMPE =
             {
-                GameData.RechargeGiftConfigData.Values.Select(x => new RechargeGiftInfo
+                GameData.RechargeGiftConfigData.Values.Select(x => new PDDCEJIPAHG
                 {
                     GiftType = (uint)x.GiftType,
-                    EndTime = uint.MaxValue,
-                    GiftDataList =
+                    BeginTime = 0,
+                    EndTime = long.MaxValue,
+                    KHLMFEEHELN =
                     {
-                        x.GiftIDList.Select(h => new RechargeGiftData
+                        x.GiftIDList.Select(h => new BAFNEIDCECF
                         {
-                            Status = RechargeGiftData.Types.KIGNFKPDGPA.Types.ICINEONCGFO.Mffndnhcgdo,
+                            Status = BAFNEIDCECF.Types.KIGNFKPDGPA.Types.ICINEONCGFO.Mffndnhcgdo,
                             Index = (uint)x.GiftIDList.IndexOf(h)
                         })
                     }

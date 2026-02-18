@@ -186,6 +186,9 @@ public partial class PlayerInstance(PlayerData data)
         BattleCollegeData = InitializeDatabase<BattleCollegeData>();
         FriendRecordData = InitializeDatabase<FriendRecordData>();
 
+        if (Components.OfType<SwitchHandComponent>().FirstOrDefault() == null)
+            Components.Add(new SwitchHandComponent(this));
+
         if ((int)(ServerPrefsData.Version * 1000) != GameConstants.GameVersionInt)
         {
             ServerPrefsData.ServerPrefsDict.Clear();

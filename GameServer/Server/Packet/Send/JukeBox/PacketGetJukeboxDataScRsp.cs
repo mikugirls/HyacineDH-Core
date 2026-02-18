@@ -11,7 +11,13 @@ public class PacketGetJukeboxDataScRsp : BasePacket
     {
         var proto = new GetJukeboxDataScRsp
         {
-            CurrentMusicId = (uint)player.Data.CurrentBgm
+            DIODOPFIENB = new IMENEPMCAKM
+            {
+                DLLEMEJFJJF = new APPBDHOHKGI
+                {
+                    Id = (uint)player.Data.CurrentBgm
+                }
+            }
         };
 
         foreach (var music in GameData.BackGroundMusicData.Values)

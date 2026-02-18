@@ -198,6 +198,9 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
 
     public override async ValueTask OnBattleEnd(BattleInstance battle, PVEBattleResultCsReq req)
     {
+        // Default to failure; successful stage clear will set true in AdvanceStage().
+        IsWin = false;
+
         // Calculate score for current stage
         var stageScore = 0;
         foreach (var battleTarget in req.Stt.BattleTargetInfo[1].BattleTargetList_)
@@ -237,6 +240,7 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
                 {
                     // Fail challenge
                     Data.Boss.CurStatus = (int)ChallengeStatus.ChallengeFailed;
+                    IsWin = false;
 
                     // Send challenge result data
                     await Player.SendPacket(new PacketChallengeBossPhaseSettleNotify(this, isReward: true));
@@ -270,7 +274,10 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
 
     private async ValueTask AdvanceStage(PVEBattleResultCsReq req)
     {
-        if (Data.Boss.CurrentStage >= Config.StageNum)
+        var isFinalStage = IsPartialChallenge || Data.Boss.CurrentStage >= Config.StageNum;
+        IsWin = isFinalStage;
+
+        if (isFinalStage)
         {
             // Last stage
             Data.Boss.CurStatus = (int)ChallengeStatus.ChallengeFinish;

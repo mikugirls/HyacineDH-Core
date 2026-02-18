@@ -11,8 +11,8 @@ public class HandlerSetFriendMarkCsReq : Handler
     {
         var req = SetFriendMarkCsReq.Parser.ParseFrom(data);
 
-        connection.Player!.FriendManager!.MarkFriend((int)req.Uid, req.ADJGKCOKOLN);
+        connection.Player!.FriendManager!.MarkFriend((int)req.Uid, req.ACMECHLPHIL);
 
-        await connection.SendPacket(new PacketSetFriendMarkScRsp(req.Uid, req.ADJGKCOKOLN));
+        await connection.SendPacket(new PacketSetFriendMarkScRsp(req.Uid, req.ACMECHLPHIL));
     }
 }

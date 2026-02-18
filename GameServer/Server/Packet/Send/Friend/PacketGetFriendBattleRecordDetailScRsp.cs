@@ -17,7 +17,7 @@ public class PacketGetFriendBattleRecordDetailScRsp : BasePacket
         var proto = new GetFriendBattleRecordDetailScRsp
         {
             Uid = (uint)recordData.Uid,
-            FMIKAEHPMAC = new RogueStatistics()
+            FMIKAEHPMAC = new IHJCHGKJJGD()
         };
 
         foreach (var group in recordData.ChallengeGroupStatistics.Values)

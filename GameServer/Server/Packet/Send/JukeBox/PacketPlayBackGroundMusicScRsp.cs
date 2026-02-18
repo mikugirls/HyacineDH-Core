@@ -9,8 +9,13 @@ public class PacketPlayBackGroundMusicScRsp : BasePacket
     {
         var proto = new PlayBackGroundMusicScRsp
         {
-            PlayMusicId = musicId,
-            CurrentMusicId = musicId
+            DIODOPFIENB = new IMENEPMCAKM
+            {
+                DLLEMEJFJJF = new APPBDHOHKGI
+                {
+                    Id = musicId
+                }
+            }
         };
 
         SetData(proto);

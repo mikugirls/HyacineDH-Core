@@ -13,10 +13,10 @@ public class HandlerSwitchHandUpdateCsReq : Handler
         var req = SwitchHandUpdateCsReq.Parser.ParseFrom(data);
 
         var component = connection.Player!.GetComponent<SwitchHandComponent>();
-        var info = component.UpdateHandInfo(req.OperationHandInfo);
+        var info = component.UpdateHandInfo(req.LJJNGIINDIB);
         if (info.Item2 == null)
-            await connection.SendPacket(new PacketSwitchHandUpdateScRsp(info.Item1, req.HandOperationInfo));
+            await connection.SendPacket(new PacketSwitchHandUpdateScRsp(info.Item1, req.ALOHEJACLLN));
         else
-            await connection.SendPacket(new PacketSwitchHandUpdateScRsp(info.Item2, req.HandOperationInfo));
+            await connection.SendPacket(new PacketSwitchHandUpdateScRsp(info.Item2, req.ALOHEJACLLN));
     }
 }

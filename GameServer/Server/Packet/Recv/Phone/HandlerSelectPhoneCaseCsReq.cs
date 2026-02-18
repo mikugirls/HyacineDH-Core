@@ -11,8 +11,8 @@ public class HandlerSelectPhoneCaseCsReq : Handler
     {
         var req = SelectPhoneCaseCsReq.Parser.ParseFrom(data);
 
-        connection.Player!.Data.PhoneCase = (int)req.PhoneCase;
+        connection.Player!.Data.PhoneCase = (int)req.PhoneCaseId;
 
-        await connection.SendPacket(new PacketSelectPhoneCaseScRsp(req.PhoneCase));
+        await connection.SendPacket(new PacketSelectPhoneCaseScRsp(req.PhoneCaseId));
     }
 }

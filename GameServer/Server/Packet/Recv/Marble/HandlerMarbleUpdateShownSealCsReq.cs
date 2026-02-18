@@ -11,6 +11,6 @@ public class HandlerMarbleUpdateShownSealCsReq : Handler
     {
         var req = MarbleUpdateShownSealCsReq.Parser.ParseFrom(data);
 
-        await connection.SendPacket(new PacketMarbleUpdateShownSealScRsp(req.UpdateSealList));
+        await connection.SendPacket(new PacketMarbleUpdateShownSealScRsp(req.PDOOKOFDOAI));
     }
 }

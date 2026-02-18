@@ -10,27 +10,18 @@ public class HandlerEnterChallengeNextPhaseCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        var challenge = connection.Player!.ChallengeManager?.ChallengeInstance;
-        if (challenge == null)
+        if (connection.Player!.ChallengeManager?.ChallengeInstance is not ChallengeBossInstance boss)
         {
             await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
             return;
         }
 
-        if (challenge is ChallengeBossInstance boss)
+        if (!await boss.NextPhase())
         {
-            var ok = await boss.NextPhase();
-            if (!ok)
-            {
-                await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
-                return;
-            }
-
-            await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(connection.Player));
+            await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
             return;
         }
 
-        // MOC/PF switch phase silently by server; this request path is AS-only.
-        await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(Retcode.RetChallengeNotDoing));
+        await connection.SendPacket(new PacketEnterChallengeNextPhaseScRsp(connection.Player));
     }
 }

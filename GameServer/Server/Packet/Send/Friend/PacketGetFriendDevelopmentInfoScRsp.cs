@@ -26,7 +26,7 @@ public class PacketGetFriendDevelopmentInfoScRsp : BasePacket
 
         var proto = new GetFriendDevelopmentInfoScRsp
         {
-            DevelopmentList = { data.DevelopmentInfos.Select(x => x.ToProto()) },
+            KDPNPGFBGNB = { data.DevelopmentInfos.Select(x => x.ToProto()) },
             Uid = (uint)data.Uid
         };
 
