@@ -19,38 +19,4 @@
     <ProjectReference Include="..\Proto\Proto.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="GameServices\Player\Components\SwitchHandComponent.cs" />
-    <Compile Remove="Server\Packet\Recv\SwitchHand\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\SwitchHand\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\Marble\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\Marble\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\Music\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\Music\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\JukeBox\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\JukeBox\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\Match\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\Match\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\RechargeGift\**\*.cs" />
-    <Compile Remove="Server\Packet\Send\RechargeGift\**\*.cs" />
-    <Compile Remove="Server\Packet\Recv\Gacha\HandlerSetGachaDecideItemCsReq.cs" />
-    <Compile Remove="Server\Packet\Send\Gacha\PacketSetGachaDecideItemScRsp.cs" />
-    <Compile Remove="Server\Packet\Recv\Item\HandlerDiscardRelicCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Item\HandlerLockEquipmentCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Item\HandlerLockRelicCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Item\HandlerSellItemCsReq.cs" />
-    <Compile Remove="Server\Packet\Send\Item\PacketDiscardRecliScRsp.cs" />
-    <Compile Remove="Server\Packet\Recv\Friend\HandlerSetFriendMarkCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Friend\HandlerGetFriendRecommendListInfoCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Friend\HandlerGetFriendLoginInfoCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Friend\HandlerGetFriendDevelopmentInfoCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Friend\HandlerGetFriendBattleRecordDetailCsReq.cs" />
-    <Compile Remove="Server\Packet\Send\Friend\PacketSetFriendMarkScRsp.cs" />
-    <Compile Remove="Server\Packet\Send\Friend\PacketGetFriendRecommendListInfoScRsp.cs" />
-    <Compile Remove="Server\Packet\Send\Friend\PacketGetFriendLoginInfoScRsp.cs" />
-    <Compile Remove="Server\Packet\Send\Friend\PacketGetFriendDevelopmentInfoScRsp.cs" />
-    <Compile Remove="Server\Packet\Send\Friend\PacketGetFriendBattleRecordDetailScRsp.cs" />
-    <Compile Remove="Server\Packet\Recv\Phone\HandlerSelectPhoneCaseCsReq.cs" />
-    <Compile Remove="Server\Packet\Recv\Scene\HandlerUpdateGroupPropertyCsReq.cs" />
-  </ItemGroup>
 </Project>

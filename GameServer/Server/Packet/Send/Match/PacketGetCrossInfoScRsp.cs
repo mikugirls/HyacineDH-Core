@@ -9,7 +9,7 @@ public class PacketGetCrossInfoScRsp : BasePacket
     {
         var proto = new GetCrossInfoScRsp
         {
-            FightGameMode = FightGameMode.JilgmanngnlGkjbaodjmjg
+            OKKFCINADIE = FightGameMode.JilgmanngnlGkjbaodjmjg
         };
 
         SetData(proto);

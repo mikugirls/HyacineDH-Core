@@ -7,9 +7,9 @@ public class PacketMarbleLevelFinishScRsp : BasePacket
 {
     public PacketMarbleLevelFinishScRsp(uint levelId) : base(CmdIds.MarbleLevelFinishScRsp)
     {
-        var proto = new MarbleLevelFinishScRsp
+        var proto = new KCDMIEAEELI
         {
-            MarbleLevelId = levelId
+            PKAADCNKGHF = levelId
         };
 
         SetData(proto);

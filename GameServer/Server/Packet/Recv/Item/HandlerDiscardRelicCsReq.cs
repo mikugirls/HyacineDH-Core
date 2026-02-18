@@ -12,8 +12,8 @@ public class HandlerDiscardRelicCsReq : Handler
     {
         var req = DiscardRelicCsReq.Parser.ParseFrom(data);
         var result =
-            await connection.Player!.InventoryManager!.DiscardItems(req.RelicUniqueIdList, req.IsDiscard,
+            await connection.Player!.InventoryManager!.DiscardItems(req.RelicIds, req.DDDNEHABBBH,
                 ItemMainTypeEnum.Relic);
-        await connection.SendPacket(new PacketDiscardRelicScRsp(result, req.IsDiscard));
+        await connection.SendPacket(new PacketDiscardRelicScRsp(result, req.DDDNEHABBBH));
     }
 }
