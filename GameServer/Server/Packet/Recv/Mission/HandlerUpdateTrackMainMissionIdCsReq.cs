@@ -4,12 +4,12 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Mission;
 
-[Opcode(CmdIds.UpdateTrackMainMissionIdCsReq)]
+[Opcode(CmdIds.UpdateTrackMainMissionCsReq)]
 public class HandlerUpdateTrackMainMissionIdCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        var req = UpdateTrackMainMissionIdCsReq.Parser.ParseFrom(data);
+        var req = UpdateTrackMainMissionCsReq.Parser.ParseFrom(data);
 
         var prev = connection.Player!.MissionManager!.Data.TrackingMainMissionId;
         connection.Player!.MissionManager!.Data.TrackingMainMissionId = (int)req.TrackMissionId;

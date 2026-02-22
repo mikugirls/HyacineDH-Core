@@ -80,13 +80,13 @@ public class PlayerData : BaseDatabaseDataHelper
         };
     }
 
-    public DHEELHCFLCC ToLobbyProto()
+    public PlayerSimpleInfo ToLobbyProto()
     {
-        return new DHEELHCFLCC
+        return new PlayerSimpleInfo
         {
             Nickname = Name,
             Level = (uint)Level,
-            ALHENFJLJOD = (uint)HeadIcon,
+            HeadIcon = (uint)HeadIcon,
             Platform = PlatformType.Pc,
             Uid = (uint)Uid
         };
@@ -159,11 +159,11 @@ public class PlayerData : BaseDatabaseDataHelper
             Signature = Signature,
             IsBanned = false,
             HeadIcon = (uint)HeadIcon,
-            LAABJDDGFEA = (uint)PersonalCard,
+            AODAGCOPCOK = (uint)PersonalCard,
             Platform = PlatformType.Pc,
             Uid = (uint)Uid,
             WorldLevel = (uint)WorldLevel,
-            NLMANMDKHDN = true,
+            EEEDAOPBPJI = true,
             RecordInfo = new PlayerRecordInfo(),
             PrivacySettings = PrivacySettings.ToProto(),
             HeadFrameInfo = HeadFrame.ToProto()
@@ -237,11 +237,11 @@ public class PrivacySettingsPb
     {
         return new PrivacySettings
         {
-            BMDMFFBOHOG = DisplayChallengeLineup,
-            LFMDLEGKIOP = DisplayActiveState,
-            ICHIBKCAONN = DisplayRecentlyState,
-            PKCIONMHPCA = DisplayBattleRecord,
-            APLFOHPELBF = DisplayCollection
+            PEKHBGBBLLK = DisplayChallengeLineup,
+            MNLGJHEMADN = DisplayActiveState,
+            LJDJALDEGKE = DisplayRecentlyState,
+            IIDDIHBKAGE = DisplayBattleRecord,
+            AJGMIHLLEDI = DisplayCollection
         };
     }
 
@@ -249,13 +249,13 @@ public class PrivacySettingsPb
     {
         return new PlayerSettingInfo
         {
-            POFNEAHHMPG = DisplayChallengeLineup,
-            APLFOHPELBF = DisplayActiveState,
-            ICHIBKCAONN = DisplayActiveState,
-            LFMDLEGKIOP = DisplayRecentlyState,
-            PNAEAOJMDMJ = DisplayBattleRecord,
-            PKCIONMHPCA = DisplayCollection,
-            NOMBGGLDDED = new IADKOHGHACM()
+            BNIJBEAJPDN = DisplayChallengeLineup,
+            JLJFENCPGHO = DisplayActiveState,
+            LJDJALDEGKE = DisplayRecentlyState,
+            OFPJKPJFPFP = DisplayBattleRecord,
+            IIDDIHBKAGE = DisplayCollection,
+            MNLGJHEMADN = DisplayBattleRecord,
+            ENDHKCFENHD = new HMELNCNOPHM()
         };
     }
 }

@@ -9,8 +9,10 @@ public class PacketGetChallengeGroupStatisticsScRsp : BasePacket
     public PacketGetChallengeGroupStatisticsScRsp(uint groupId, ChallengeGroupStatisticsPb? data) : base(
         CmdIds.GetChallengeGroupStatisticsScRsp)
     {
-        var proto = data?.ToProto() ?? new GetChallengeGroupStatisticsScRsp();
-        proto.GroupId = groupId;
+        var proto = new GetChallengeGroupStatisticsScRsp
+        {
+            GroupId = groupId
+        };
 
         SetData(proto);
     }

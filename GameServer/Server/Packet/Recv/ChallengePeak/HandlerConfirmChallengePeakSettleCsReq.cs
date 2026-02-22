@@ -10,7 +10,7 @@ public class HandlerConfirmChallengePeakSettleCsReq : Handler
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
         var req = ConfirmChallengePeakSettleCsReq.Parser.ParseFrom(data);
-        await connection.SendPacket(new PacketConfirmChallengePeakSettleScRsp(req.PeakId, req.FKIELEGBOHL));
+        await connection.SendPacket(new PacketConfirmChallengePeakSettleScRsp(req.PeakId, req.JBJKIALGDOI));
     }
 }
 

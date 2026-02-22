@@ -9,9 +9,9 @@ public class PacketPlayBackGroundMusicScRsp : BasePacket
     {
         var proto = new PlayBackGroundMusicScRsp
         {
-            DIODOPFIENB = new IMENEPMCAKM
+            DMCGIJPHHLI = new ILJPEPMBGCI
             {
-                DLLEMEJFJJF = new APPBDHOHKGI
+                FIMOIDDDBPN = new DJAONBPALLI
                 {
                     Id = musicId
                 }

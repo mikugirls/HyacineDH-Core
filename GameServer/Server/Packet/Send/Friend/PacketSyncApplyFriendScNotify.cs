@@ -11,7 +11,7 @@ public class PacketSyncApplyFriendScNotify : BasePacket
     {
         var proto = new SyncApplyFriendScNotify
         {
-            ApplyInfo = new FriendApplyInfo
+            FriendApplyInfo = new FriendApplyInfo
             {
                 ApplyTime = Extensions.GetUnixSec(),
                 PlayerInfo = player.ToSimpleProto(FriendOnlineStatus.Online)

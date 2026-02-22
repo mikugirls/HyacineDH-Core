@@ -136,9 +136,9 @@ public class BannerConfig
         var info = new GachaInfo
         {
             GachaId = (uint)GachaId,
-            KIFIEAKAJCK = (uint)GachaType.GetCostItemId(),
-            DetailWebview = "",
-            DropHistoryWebview = ""
+            MHMENMHKACL = (uint)GachaType.GetCostItemId(),
+            DetailUrl = "",
+            HistoryUrl = ""
         };
 
         if (GachaType != GachaTypeEnum.Normal)

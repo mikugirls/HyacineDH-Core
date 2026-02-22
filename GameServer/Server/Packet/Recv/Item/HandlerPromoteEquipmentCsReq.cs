@@ -12,6 +12,6 @@ public class HandlerPromoteEquipmentCsReq : Handler
 
         await connection.Player!.InventoryManager!.PromoteEquipment((int)req.EquipmentUniqueId);
 
-        await connection.SendPacket(CmdIds.PromoteEquipmentScRsp);
+        await connection.SendPacket(CmdIds.None);
     }
 }

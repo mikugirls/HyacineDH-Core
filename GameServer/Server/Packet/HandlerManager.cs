@@ -12,8 +12,13 @@ public static class HandlerManager
         foreach (var cls in classes)
         {
             var attribute = (Opcode?)Attribute.GetCustomAttribute(cls, typeof(Opcode));
+            if (attribute == null) continue;
+            if (!typeof(Handler).IsAssignableFrom(cls) || cls.IsAbstract) continue;
 
-            if (attribute != null) handlers.Add(attribute.CmdId, (Handler)Activator.CreateInstance(cls)!);
+            var instance = (Handler)Activator.CreateInstance(cls)!;
+            if (!handlers.TryAdd(attribute.CmdId, instance))
+                Console.WriteLine(
+                    $"[HandlerManager] Duplicate opcode {attribute.CmdId}: {handlers[attribute.CmdId].GetType().Name} vs {cls.Name}. Skipped {cls.Name}.");
         }
     }
 

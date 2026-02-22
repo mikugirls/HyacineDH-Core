@@ -97,11 +97,11 @@ public class PacketSceneGroupRefreshScNotify : BasePacket
             };
 
             foreach (var data in dataList)
-                group.MPDEGPAMIEI.Add(new MDBADLOEJMP
+                group.IJABHDPLDMI.Add(new MAALENOAMPC
                 {
-                    BNINLHOKICO = data.NewValue,
-                    JIPGMBMBDFK = data.OldValue,
-                    GCJKIDIBJHJ = data.PropertyName
+                    JDJOCEHPOKF = data.NewValue,
+                    EAGKBEMCFAB = data.OldValue,
+                    NOCBONMOOGC = data.PropertyName
                 });
 
             proto.GroupRefreshList.Add(group);

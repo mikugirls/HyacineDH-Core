@@ -13,10 +13,6 @@ public class PacketRevcMsgScNotify : BasePacket
         {
             ChatType = ChatType.Private,
             SourceUid = fromUid,
-            TargetUid = toUid,
-            MessageText = msg,
-            ChatData = chat.ChatData,
-            MessageType = chat.MessageType,
             RecvMessageData = chat
         };
 
@@ -31,10 +27,6 @@ public class PacketRevcMsgScNotify : BasePacket
         {
             ChatType = ChatType.Private,
             SourceUid = fromUid,
-            TargetUid = toUid,
-            ExtraId = extraId,
-            ChatData = chat.ChatData,
-            MessageType = chat.MessageType,
             RecvMessageData = chat
         };
 

@@ -53,7 +53,7 @@ public class AvatarManager(PlayerInstance player) : BasePlayerManager(player)
             // add development
             Player.FriendRecordData!.AddAndRemoveOld(new FriendDevelopmentInfoPb
             {
-                DevelopmentType = DevelopmentType.LhjmkmeiklkCooihblilbb,
+                DevelopmentType = DevelopmentType.DevelopmentUnlockAvatar,
                 Params = { { "AvatarId", (uint)avatarExcel.AvatarID } }
             });
 

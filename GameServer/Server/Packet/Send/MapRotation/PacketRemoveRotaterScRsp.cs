@@ -6,7 +6,7 @@ namespace HyacineCore.Server.GameServer.Server.Packet.Send.MapRotation;
 
 public class PacketRemoveRotaterScRsp : BasePacket
 {
-    public PacketRemoveRotaterScRsp(PlayerInstance player, RemoveRotaterCsReq req) : base(CmdIds.RemoveRotaterScRsp)
+    public PacketRemoveRotaterScRsp(PlayerInstance player, RemoveRotatorCsReq req) : base(CmdIds.RemoveRotaterScRsp)
     {
         var proto = new RemoveRotaterScRsp
         {

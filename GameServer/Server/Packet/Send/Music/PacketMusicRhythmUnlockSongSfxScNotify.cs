@@ -8,9 +8,8 @@ public class PacketMusicRhythmUnlockSongSfxScNotify : BasePacket
 {
     public PacketMusicRhythmUnlockSongSfxScNotify() : base(CmdIds.MusicRhythmUnlockSongSfxScNotify)
     {
+        _ = GameData.MusicRhythmSoundEffectData.Count;
         var proto = new MusicRhythmUnlockSongSfxScNotify();
-
-        foreach (var sfx in GameData.MusicRhythmSoundEffectData.Values) proto.ODJCMAEKOGG.Add((uint)sfx.GetId());
 
         SetData(proto);
     }

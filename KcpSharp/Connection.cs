@@ -17,7 +17,7 @@ public class HyacineCoreConnection
     public static readonly ConcurrentBag<int> IgnoreLog =
     [
         CmdIds.PlayerHeartBeatCsReq, CmdIds.PlayerHeartBeatScRsp, CmdIds.SceneEntityMoveCsReq,
-        CmdIds.SceneEntityMoveScRsp, CmdIds.GetShopListCsReq, CmdIds.GetShopListScRsp, CmdIds.FightHeartBeatScRsp
+        CmdIds.SceneEntityMoveScRsp, CmdIds.GetShopListCsReq, CmdIds.GetShopListScRsp
     ];
 
     protected readonly CancellationTokenSource CancelToken;
