@@ -188,7 +188,7 @@ public class ChallengeMemoryInstance(PlayerInstance player, ChallengeDataPb data
             // add development
             Player.FriendRecordData!.AddAndRemoveOld(new FriendDevelopmentInfoPb
             {
-                DevelopmentType = DevelopmentType.LhjmkmeiklkDbfjdbiefdb,
+                DevelopmentType = DevelopmentType.DevelopmentMemoryChallenge,
                 Params = { { "ChallengeId", (uint)Config.ID } }
             });
         }

@@ -94,7 +94,7 @@ public class SceneInstance
                 groups.Add(new SceneEntityGroupInfo
                 {
                     GroupId = (uint)entity.Value.GroupId,
-                    JJEEOCOBCKC = { resProperty }
+                    GGNJMGHHHMJ = { resProperty }
                 });
             }
 
@@ -116,7 +116,7 @@ public class SceneInstance
                 groups.Add(new SceneEntityGroupInfo
                 {
                     GroupId = (uint)groupId,
-                    JJEEOCOBCKC = { resProperty }
+                    GGNJMGHHHMJ = { resProperty }
                 });
             }
 

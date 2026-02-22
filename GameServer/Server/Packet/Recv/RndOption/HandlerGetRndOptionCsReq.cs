@@ -7,6 +7,6 @@ public class HandlerGetRndOptionCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        await connection.SendPacket(CmdIds.GetRndOptionScRsp);
+        await connection.SendPacket(CmdIds.None);
     }
 }

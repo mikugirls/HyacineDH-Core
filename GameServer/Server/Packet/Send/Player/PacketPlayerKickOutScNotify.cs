@@ -5,24 +5,9 @@ namespace HyacineCore.Server.GameServer.Server.Packet.Send.Player;
 
 public class PacketPlayerKickOutScNotify : BasePacket
 {
-    public PacketPlayerKickOutScNotify() : base(CmdIds.PlayerKickOutScNotify)
+    public PacketPlayerKickOutScNotify() : base(CmdIds.FightKickOutScNotify)
     {
-        var proto = new PlayerKickOutScNotify
-        {
-            KickType = PlayerKickOutScNotify.Types.KickType.KickSqueezed
-        };
-        SetData(proto);
-    }
-
-    public PacketPlayerKickOutScNotify(PlayerKickOutScNotify.Types.KickType type, BlackInfo? info = null) : base(CmdIds.PlayerKickOutScNotify)
-    {
-        var proto = new PlayerKickOutScNotify
-        {
-            KickType = type
-        };
-
-        if (info != null) proto.BlackInfo = info;
-
+        var proto = new FightKickOutScNotify();
         SetData(proto);
     }
 }

@@ -12,7 +12,7 @@ public class PacketConfirmChallengePeakSettleScRsp : BasePacket
         {
             Retcode = (uint)retcode,
             PeakId = peakId,
-            FKIELEGBOHL = unk
+            JBJKIALGDOI = unk
         };
 
         SetData(proto);

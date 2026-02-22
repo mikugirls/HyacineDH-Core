@@ -82,11 +82,27 @@ public class SwitchHandInfo
     public uint State { get; set; } = 101;
     public byte[] ByteValue { get; set; } = [];
 
-    public BLGGKBFPOPD ToProto()
+    public ScenePropInfo ToProto()
     {
-        return new BLGGKBFPOPD
+        return new ScenePropInfo
         {
-            ConfigId = (uint)ConfigId
+            PropId = (uint)ConfigId
+        };
+    }
+
+    public MFJODIAILFL ToSwitchHandProto()
+    {
+        return new MFJODIAILFL
+        {
+            ConfigId = (uint)ConfigId,
+            JMMIHOEDFCG = CoinNum < 0 ? 0u : (uint)CoinNum,
+            CMMNJCIDABE = State,
+            PMIEJBIDLIL = ByteString.CopyFrom(ByteValue),
+            ALMMDIOABGJ = new MotionInfo
+            {
+                Pos = Pos.ToProto(),
+                Rot = Rot.ToProto()
+            }
         };
     }
 }

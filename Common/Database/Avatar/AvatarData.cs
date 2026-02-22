@@ -494,7 +494,7 @@ public class FormalAvatarInfo : BaseAvatarInfo
 
                 proto.AvatarPathSkillTree.Add(new AvatarPathSkillTree
                 {
-                    MultiPointId = (uint)multiPointId,
+                    PointId = (uint)multiPointId,
                     Level = (uint)skill.Value
                 });
             }

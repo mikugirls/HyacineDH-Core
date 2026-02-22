@@ -9,7 +9,7 @@ public class PacketGetFriendLoginInfoScRsp : BasePacket
     {
         var proto = new GetFriendLoginInfoScRsp
         {
-            CKJHINJOPGK = { friends.Select(x => (uint)x) }
+            PKDOFLGOAOF = { friends.Select(x => (uint)x) }
         };
 
         SetData(proto);

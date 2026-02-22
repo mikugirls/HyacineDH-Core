@@ -5,9 +5,9 @@ namespace HyacineCore.Server.GameServer.Server.Packet.Send.Mission;
 
 public class PacketUpdateTrackMainMissionIdScRsp : BasePacket
 {
-    public PacketUpdateTrackMainMissionIdScRsp(int prev, int cur) : base(CmdIds.UpdateTrackMainMissionIdScRsp)
+    public PacketUpdateTrackMainMissionIdScRsp(int prev, int cur) : base(CmdIds.UpdateTrackMainMissionScRsp)
     {
-        var proto = new UpdateTrackMainMissionIdScRsp
+        var proto = new UpdateTrackMainMissionScRsp
         {
             PrevTrackMissionId = (uint)prev,
             TrackMissionId = (uint)cur

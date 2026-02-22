@@ -10,8 +10,7 @@ public class HandlerQuickStartCocoonStageCsReq : Handler
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
         var req = QuickStartCocoonStageCsReq.Parser.ParseFrom(data);
-        // Different proto sets may use either Wave or IHIAFPLIPEK for challenge times.
-        var wave = (int)(req.Wave > 0 ? req.Wave : req.IHIAFPLIPEK);
+        var wave = (int)(req.Wave > 0 ? req.Wave : req.CKIHMAFPNOA);
         if (wave <= 0) wave = 1;
 
         var battle =

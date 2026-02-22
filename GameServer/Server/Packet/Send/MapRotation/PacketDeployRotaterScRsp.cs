@@ -5,9 +5,9 @@ namespace HyacineCore.Server.GameServer.Server.Packet.Send.MapRotation;
 
 public class PacketDeployRotaterScRsp : BasePacket
 {
-    public PacketDeployRotaterScRsp(RotaterData rotaterData, int curNum, int maxNum) : base(CmdIds.DeployRotaterScRsp)
+    public PacketDeployRotaterScRsp(RotaterData rotaterData, int curNum, int maxNum) : base(CmdIds.DeployRotatorScRsp)
     {
-        var proto = new DeployRotaterScRsp
+        var proto = new DeployRotatorScRsp
         {
             EnergyInfo = new RotaterEnergyInfo
             {

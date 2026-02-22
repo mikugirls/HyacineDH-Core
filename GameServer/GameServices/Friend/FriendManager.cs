@@ -353,8 +353,8 @@ public class FriendManager(PlayerInstance player) : BasePlayerManager(player)
         {
             Key = challengeId,
             Retcode = 0,
-            Type = (AJLJOLEJLAC)requestType,
-            IBOBLIKAPNM = false
+            Type = (AMOIPPAJLLN)requestType,
+            ODKMDNINFIM = false
         };
     }
     public GetFriendListInfoScRsp ToProto()

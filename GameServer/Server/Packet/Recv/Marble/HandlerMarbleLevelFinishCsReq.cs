@@ -4,13 +4,11 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Marble;
 
-[Opcode(CmdIds.MarbleLevelFinishCsReq)]
+[Opcode(CmdIds.None)]
 public class HandlerMarbleLevelFinishCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        var req = CJIBLEHFKHH.Parser.ParseFrom(data);
-
-        await connection.SendPacket(new PacketMarbleLevelFinishScRsp(req.PKAADCNKGHF));
+        await connection.SendPacket(new PacketMarbleLevelFinishScRsp(0));
     }
 }

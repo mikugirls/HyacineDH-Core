@@ -299,7 +299,7 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
             // add development
             Player.FriendRecordData!.AddAndRemoveOld(new FriendDevelopmentInfoPb
             {
-                DevelopmentType = DevelopmentType.LhjmkmeiklkGmopdopmgfn,
+                DevelopmentType = DevelopmentType.DevelopmentBossChallenge,
                 Params = { { "ChallengeId", (uint)Config.ID } }
             });
         }

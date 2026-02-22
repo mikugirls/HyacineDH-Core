@@ -11,13 +11,7 @@ public class PacketStartRaidScRsp : BasePacket
     {
         var proto = new StartRaidScRsp
         {
-            Scene = new OGLAIJDPIOE
-            {
-                Lineup = player.LineupManager!.GetCurLineup()!.ToProto(),
-                RaidId = (uint)record.RaidId,
-                AKHMIOEJMBE = player.SceneInstance!.ToProto(),
-                WorldLevel = (uint)record.WorldLevel
-            }
+            Retcode = (uint)Retcode.RetSucc
         };
 
         SetData(proto);

@@ -8,9 +8,8 @@ public class PacketMusicRhythmUnlockTrackScNotify : BasePacket
 {
     public PacketMusicRhythmUnlockTrackScNotify() : base(CmdIds.MusicRhythmUnlockTrackScNotify)
     {
+        _ = GameData.MusicRhythmTrackData.Count;
         var proto = new MusicRhythmUnlockTrackScNotify();
-
-        foreach (var sfx in GameData.MusicRhythmTrackData.Values) proto.IELLAKHIONO.Add((uint)sfx.GetId());
 
         SetData(proto);
     }

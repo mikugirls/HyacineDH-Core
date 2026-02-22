@@ -16,20 +16,14 @@ public static class ChatMessageBuilder
 
         var chat = new ChatMessageData
         {
-            MessageType = MsgType.CustomText,
-            Content = text,
-            SenderId = senderUid,
             CreateTime = createTime ?? (ulong)Extensions.GetUnixSec(),
-            ChatData = chatData,
-            MessageData = messageData,
-            BOFJJHIKIJL = new DABBFCOAFJG
+            AEELKNKIICI = new JDPGJOADLLE
             {
                 Uid = senderUid
             }
         };
 
-        // Some clients read repeated message payloads instead of the singular field.
-        chat.DMFMJNNNAFA.Add(messageData);
+        chat.MessageDatas.Add(messageData);
         return chat;
     }
 
@@ -44,20 +38,14 @@ public static class ChatMessageBuilder
 
         var chat = new ChatMessageData
         {
-            MessageType = MsgType.Emoji,
-            ExtraId = extraId,
-            SenderId = senderUid,
             CreateTime = createTime ?? (ulong)Extensions.GetUnixSec(),
-            ChatData = chatData,
-            MessageData = messageData,
-            BOFJJHIKIJL = new DABBFCOAFJG
+            AEELKNKIICI = new JDPGJOADLLE
             {
                 Uid = senderUid
             }
         };
 
-        // Some clients read repeated message payloads instead of the singular field.
-        chat.DMFMJNNNAFA.Add(messageData);
+        chat.MessageDatas.Add(messageData);
         return chat;
     }
 }

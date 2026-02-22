@@ -9,36 +9,19 @@ public class HandlerSendMsgCsReq : Handler
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
         var req = SendMsgCsReq.Parser.ParseFrom(data);
+        var messageData = req.MessageDatas;
+        var chatData = messageData?.ChatData;
+        var text = chatData?.HasMessageText == true ? chatData.MessageText.Trim('\0').Trim() : null;
+        var extraId = chatData?.HasExtraId == true ? chatData.ExtraId : 0u;
+        var msgType = messageData?.MessageType ?? MsgType.None;
 
-        var nestedChatData = req.MessageData?.ChatData;
-
-        string? text = null;
-        if (nestedChatData?.HasMessageText == true)
-            text = nestedChatData.MessageText;
-        else if (req.ChatData?.HasMessageText == true)
-            text = req.ChatData.MessageText;
-        else if (!string.IsNullOrWhiteSpace(req.MessageText))
-            text = req.MessageText;
-
-        text = text?.Trim('\0').Trim();
-
-        var extraId = 0u;
-        if (nestedChatData?.HasExtraId == true)
-            extraId = nestedChatData.ExtraId;
-        else if (req.ChatData?.HasExtraId == true)
-            extraId = req.ChatData.ExtraId;
-        else
-            extraId = req.ExtraId;
-
-        var msgType = MsgType.None;
-        if (req.MessageData != null && req.MessageData.MessageType != MsgType.None)
-            msgType = req.MessageData.MessageType;
-        else if (req.MessageType != MsgType.None)
-            msgType = req.MessageType;
-        else if (!string.IsNullOrWhiteSpace(text))
-            msgType = MsgType.CustomText;
-        else if (extraId != 0)
-            msgType = MsgType.Emoji;
+        if (msgType == MsgType.None)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+                msgType = MsgType.CustomText;
+            else if (extraId != 0)
+                msgType = MsgType.Emoji;
+        }
 
         if (req.TargetList.Count == 0)
         {
@@ -48,11 +31,15 @@ public class HandlerSendMsgCsReq : Handler
 
         foreach (var targetUid in req.TargetList)
         {
-            if (msgType == MsgType.CustomText)
-                await connection.Player!.FriendManager!.SendMessage(connection.Player!.Uid, (int)targetUid, text);
-            else if (msgType == MsgType.Emoji)
+            if (msgType == MsgType.Emoji && extraId != 0)
+            {
                 await connection.Player!.FriendManager!.SendMessage(connection.Player!.Uid, (int)targetUid, null,
                     (int)extraId);
+            }
+            else if (!string.IsNullOrWhiteSpace(text))
+            {
+                await connection.Player!.FriendManager!.SendMessage(connection.Player!.Uid, (int)targetUid, text);
+            }
         }
 
         await connection.SendPacket(CmdIds.SendMsgScRsp);

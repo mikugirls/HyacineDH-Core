@@ -4,12 +4,12 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.MapRotation;
 
-[Opcode(CmdIds.DeployRotaterCsReq)]
+[Opcode(CmdIds.DeployRotatorCsReq)]
 public class HandlerDeployRotaterCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
     {
-        var req = DeployRotaterCsReq.Parser.ParseFrom(data);
+        var req = DeployRotatorCsReq.Parser.ParseFrom(data);
 
         connection.Player!.ChargerNum--;
         await connection.SendPacket(new PacketDeployRotaterScRsp(req.RotaterData, connection.Player!.ChargerNum, 5));

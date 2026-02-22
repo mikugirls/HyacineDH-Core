@@ -23,7 +23,7 @@ public class PacketQuickStartCocoonStageScRsp : BasePacket
         {
             CocoonId = (uint)cocoonId,
             Wave = (uint)wave,
-            IHIAFPLIPEK = (uint)wave,
+            CKIHMAFPNOA = (uint)wave,
             BattleInfo = battle.ToProto()
         };
 
