@@ -41,7 +41,8 @@ public partial class PlayerInstance
         GameData.InteractConfigData.TryGetValue(interactId, out var config);
         if (config == null || config.SrcState != prop.State) return prop;
         var oldState = prop.State;
-        await prop.SetState(config.TargetState);
+        // Force-send state change so client sees chest/puzzle updates immediately
+        await prop.SetState(config.TargetState, true);
         var newState = prop.State;
         await SendPacket(new PacketGroupStateChangeScNotify(Data.EntryId, prop.GroupId, prop.State));
 

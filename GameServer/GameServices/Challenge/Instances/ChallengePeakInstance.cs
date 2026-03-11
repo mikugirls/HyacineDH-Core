@@ -123,6 +123,10 @@ public class ChallengePeakInstance(PlayerInstance player, ChallengeDataPb data) 
                     Data.Peak.RoundCnt = req.Stt.RoundCnt;
                     IsWin = true;
 
+                    await Player.SendPacket(new PacketChallengePeakSettleScNotify(this, res.Item2));
+
+                    await Player.ChallengePeakManager!.SaveHistory(this, res.Item2);
+
                     // Call MissionManager
                     await Player.MissionManager!.HandleFinishType(MissionFinishTypeEnum.ChallengePeakBattleFinish,
                         this);
@@ -130,7 +134,7 @@ public class ChallengePeakInstance(PlayerInstance player, ChallengeDataPb data) 
                     // add development
                     Player.FriendRecordData!.AddAndRemoveOld(new FriendDevelopmentInfoPb
                     {
-                        DevelopmentType = DevelopmentType.LhjmkmeiklkAogdffkokmc,
+                        DevelopmentType = DevelopmentType.DevelopmentChallengePeak,
                         Params = { { "PeakLevelId", (uint)Config.ID } }
                     });
                 }
