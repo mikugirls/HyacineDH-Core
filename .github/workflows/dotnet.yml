@@ -30,6 +30,9 @@ jobs:
       with:
         dotnet-version: 9.0.x
 
+    - name: Check Node version used by actions
+      run: node --version
+
     - name: Restore dependencies
       run: dotnet restore
 
