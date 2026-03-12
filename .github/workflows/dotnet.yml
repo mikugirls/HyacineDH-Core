@@ -18,12 +18,14 @@ jobs:
   build:
 
     runs-on: windows-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
 
@@ -40,19 +42,19 @@ jobs:
       run: dotnet publish Program\Program.csproj -o Release\linux-arm64 -r linux-arm64 --framework net9.0 -p:PublishSingleFile=true
 
     - name: Upload win-x64 Build Artifact
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: HyacineDH-win-64
         path: Release\win-x64
 
     - name: Upload linux-x64 Build Artifact
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: HyacineDH-linux-x64
         path: Release\linux-x64
 
     - name: Upload linux-arm64 Build Artifact
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: HyacineDH-linux-arm64
         path: Release\linux-arm64
