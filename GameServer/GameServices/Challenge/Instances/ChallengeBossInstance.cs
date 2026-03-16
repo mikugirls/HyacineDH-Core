@@ -276,7 +276,6 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
         {
             // Last stage
             Data.Boss.CurStatus = (int)ChallengeStatus.ChallengeFinish;
-            IsWin = true;
             Data.Boss.Stars = CalculateStars();
 
             // Save history
@@ -284,6 +283,7 @@ public class ChallengeBossInstance(PlayerInstance player, ChallengeDataPb data)
 
             // Send challenge result data
             await Player.SendPacket(new PacketChallengeBossPhaseSettleNotify(this, req.Stt.BattleTargetInfo[1]));
+            await Player.SendPacket(new PacketChallengeSettleNotify(this));
 
             // Call MissionManager
             await Player.MissionManager!.HandleFinishType(MissionFinishTypeEnum.ChallengeFinish, this);

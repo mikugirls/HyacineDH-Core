@@ -123,9 +123,9 @@ public class ChallengePeakInstance(PlayerInstance player, ChallengeDataPb data) 
                     Data.Peak.RoundCnt = req.Stt.RoundCnt;
                     IsWin = true;
 
-                    await Player.SendPacket(new PacketChallengePeakSettleScNotify(this, res.Item2));
-
                     await Player.ChallengePeakManager!.SaveHistory(this, res.Item2);
+
+                    await Player.SendPacket(new PacketChallengePeakSettleScNotify(this, res.Item2));
 
                     // Call MissionManager
                     await Player.MissionManager!.HandleFinishType(MissionFinishTypeEnum.ChallengePeakBattleFinish,
@@ -153,7 +153,10 @@ public class ChallengePeakInstance(PlayerInstance player, ChallengeDataPb data) 
             default:
                 // Determine challenge result
                 // Fail challenge
+                IsWin = false;
                 Data.Peak.CurStatus = (int)ChallengeStatus.ChallengeFailed;
+                Data.Peak.Stars = 0;
+                Data.Peak.RoundCnt = req.Stt.RoundCnt;
 
                 // Send challenge result data
                 await Player.SendPacket(new PacketChallengePeakSettleScNotify(this, []));
