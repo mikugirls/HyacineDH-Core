@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Friend;
 
-//[Opcode(CmdIds.DeleteFriendCsReq)]
+[Opcode(CmdIds.DeleteFriendCsReq)]
 public class HandlerDeleteFriendCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

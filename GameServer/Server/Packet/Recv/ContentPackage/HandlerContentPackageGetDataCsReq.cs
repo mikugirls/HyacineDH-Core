@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.ContentPackage;
 
-//[Opcode(CmdIds.ContentPackageGetDataCsReq)]
+[Opcode(CmdIds.ContentPackageGetDataCsReq)]
 public class HandlerContentPackageGetDataCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

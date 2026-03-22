@@ -1,6 +1,4 @@
-﻿namespace HyacineCore.Server.Enums.Item;
-
-public enum ItemSubTypeEnum
+﻿public enum ItemSubTypeEnum
 {
     Unknown = 0,
     Virtual = 101,
@@ -54,5 +52,7 @@ public enum ItemSubTypeEnum
     Mission = 701,
     RelicSetShowOnly = 801,
     RelicRarityShowOnly = 802,
-    NormalPet = 901
+    NormalPet = 901,
+
+    IdleLiveItem,
 }

@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Quest;
 
-//[Opcode(CmdIds.GetDailyActiveInfoCsReq)]
+[Opcode(CmdIds.GetDailyActiveInfoCsReq)]
 public class HandlerGetDailyActiveInfoCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

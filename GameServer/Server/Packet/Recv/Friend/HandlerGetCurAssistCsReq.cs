@@ -2,7 +2,7 @@
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Friend;
 
-//[Opcode(CmdIds.GetCurAssistCsReq)]
+[Opcode(CmdIds.GetCurAssistCsReq)]
 public class HandlerGetCurAssistCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

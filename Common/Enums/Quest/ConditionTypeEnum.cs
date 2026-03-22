@@ -27,5 +27,11 @@ public enum ConditionTypeEnum
     ElfProgress = 24,
     ElfProgressDay = 25,
     HeroRoomOpen = 26,
-    ActivityInTimeLimit = 27
+    ActivityInTimeLimit = 27,
+
+    TrainPartyRoomLevel,
+    TrainPartyGamePlayChallengeTimes,
+    OfferingLevel,
+    LimaoCondition,
+    AvatarPathUnlock,
 }

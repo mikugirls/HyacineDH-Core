@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Activity;
 
-//[Opcode(CmdIds.StartTrialActivityCsReq)]
+[Opcode(CmdIds.StartTrialActivityCsReq)]
 public class HandlerStartTrialActivityCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

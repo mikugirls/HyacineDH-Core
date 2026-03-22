@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Quest;
 
-//[Opcode(CmdIds.FinishQuestCsReq)]
+[Opcode(CmdIds.FinishQuestCsReq)]
 public class HandlerFinishQuestCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

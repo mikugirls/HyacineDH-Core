@@ -5,7 +5,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.HeartDial;
 
-//[Opcode(CmdIds.FinishEmotionDialoguePerformanceCsReq)]
+[Opcode(CmdIds.FinishEmotionDialoguePerformanceCsReq)]
 public class HandlerFinishEmotionDialoguePerformanceCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

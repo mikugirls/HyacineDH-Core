@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Battle;
 
-//[Opcode(CmdIds.GetFarmStageGachaInfoCsReq)]
+[Opcode(CmdIds.GetFarmStageGachaInfoCsReq)]
 public class HandlerGetFarmStageGachaInfoCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

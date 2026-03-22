@@ -3,7 +3,7 @@ using HyacineCore.Server.Kcp;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Friend;
 
-//[Opcode(CmdIds.GetAssistHistoryCsReq)]
+[Opcode(CmdIds.GetAssistHistoryCsReq)]
 public class HandlerGetAssistHistoryCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

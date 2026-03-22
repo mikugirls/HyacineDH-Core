@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Adventure;
 
-//[Opcode(CmdIds.QuickStartCocoonStageCsReq)]
+[Opcode(CmdIds.QuickStartCocoonStageCsReq)]
 public class HandlerQuickStartCocoonStageCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

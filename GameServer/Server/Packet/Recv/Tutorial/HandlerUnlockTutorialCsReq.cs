@@ -4,7 +4,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Tutorial;
 
-//[Opcode(CmdIds.UnlockTutorialCsReq)]
+[Opcode(CmdIds.UnlockTutorialCsReq)]
 public class HandlerUnlockTutorialCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)

@@ -5,7 +5,7 @@ using HyacineCore.Server.Proto;
 
 namespace HyacineCore.Server.GameServer.Server.Packet.Recv.Quest;
 
-//[Opcode(CmdIds.TakeQuestRewardCsReq)]
+[Opcode(CmdIds.TakeQuestRewardCsReq)]
 public class HandlerTakeQuestRewardCsReq : Handler
 {
     public override async Task OnHandle(Connection connection, byte[] header, byte[] data)
