@@ -27,3 +27,16 @@ public class LoginV2ReqJson
     public string? device { get; set; }
     public string? sign { get; set; }
 }
+
+public class VerifySTokenReqJson
+{
+    public string mid { get; set; }
+    public bool refresh { get; set; }
+    public TokenInfo token { get; set; }
+
+    public class TokenInfo
+    {
+        public int token_type { get; set; }
+        public string token { get; set; }
+    }
+}

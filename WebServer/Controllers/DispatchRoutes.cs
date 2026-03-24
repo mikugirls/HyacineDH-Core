@@ -1,9 +1,10 @@
-﻿using HyacineCore.Server.Configuration;
+﻿using Google.Protobuf;
+using HyacineCore.Server.Configuration;
+using HyacineCore.Server.Database.Account;
 using HyacineCore.Server.Proto;
 using HyacineCore.Server.Util;
 using HyacineCore.Server.WebServer.Handler;
 using HyacineCore.Server.WebServer.Objects;
-using Google.Protobuf;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -142,6 +143,20 @@ public class DispatchRoutes : ControllerBase
     {
         Logger.Debug($"combo login v2: app_id={req.app_id} channel_id={req.channel_id} data_len={(req.data?.Length ?? 0)}");
         return new ComboTokenGranterHandler().Handle(req.app_id, req.channel_id, req.data!, req.device!, req.sign!);
+    }
+
+    [HttpPost("/account/ma-cn-passport/app/loginByPassword")]
+    public ContentResult NewLogin([FromBody] NewLoginReqJson req)
+    {
+        Logger.Debug($"ma loginByPassword: account={req.account}");
+        return new NewUsernameLoginHandler2().Handle(req.account!, req.password!);
+    }
+
+    [HttpPost("/account/ma-cn-session/app/verify")]
+    public ContentResult NewVerify([FromBody] VerifySTokenReqJson req)
+    {
+        Logger.Debug($"ma verify: mid={req.mid}, token={req.token.token}");
+        return new NewTokenLoginHandler().Handle(req.mid!, req.token.token!);
     }
 
     [HttpGet("/hkrpg_global/combo/granter/api/getConfig")]
