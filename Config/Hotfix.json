@@ -1,4 +1,11 @@
 {
+  "CN4.1.0": {
+    "asset_bundle_url": "https://autopatchcn.bhsr.com/asb/V4.1Live/output_14553814_98a573b989d4_5c50aaaa090454",
+    "asset_bundle_url_b": "",
+    "ex_resource_url": "https://autopatchcn.bhsr.com/design_data/V4.1Live/output_14727034_4dc2d80955d1_383e592bd62231",
+    "lua_url": "https://autopatchcn.bhsr.com/lua/V4.1Live/output_14519506_4475c60337d3_7a5235893fbdae",
+    "ifix_url": "https://autopatchcn.bhsr.com/ifix/V4.1Live/output_14519674_9c619504b1a9_745c66b642ce8c"
+  },
   "CNBETA4.1.51": {
     "asset_bundle_url": "https://autopatchcn.bhsr.com/asb/BetaLive/output_14372365_fa78e03ad599_36972b4e3bb553",
     "asset_bundle_url_b": "https://autopatchcn.bhsr.com/asb/BetaLive/output_14352532_e3dee8767e70_9fd758f12171f5",
