@@ -18,6 +18,7 @@ dotnet run
 
 ## 📝使用说明
 如果你不想从源代码编译，请使用 [Releases](https://github.com/DBKAHHK/HyacineDH-Core/releases) 下载预编译的文件。
+或也可从[Actions](https://github.com/DBKAHHK/HyacineDH-Core/actions)下载最新源码版的构建。从[这里](https://github.com/DimbreathBot/TurnBasedGameData)下载Resources资源并放置在同目录。
 
 ## 💡功能
 

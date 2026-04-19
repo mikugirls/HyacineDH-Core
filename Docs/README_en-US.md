@@ -20,6 +20,7 @@ dotnet run
 
 ## 📝Instructions for Use
 If you do not want to compile from source code, please use... Download the pre-compiled files from [Releases](https://github.com/DBKAHHK/HyacineDH-Core/releases).
+Alternatively, you can download the latest source-based build from [Actions](https://github.com/DBKAHHK/HyacineDH-Core/actions). Download the Resources from [here](https://github.com/DimbreathBot/TurnBasedGameData) and place them in the same directory.
 
 ## 💡Features
 
