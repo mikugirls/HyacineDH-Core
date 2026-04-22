@@ -75,5 +75,12 @@
     "ex_resource_url": "https://autopatchcn.bhsr.com/design_data/BetaLive/output_14680684_6e4cc15140f9_34bc3dc9e0ec06",
     "lua_url": "https://autopatchcn.bhsr.com/lua/BetaLive/output_14669747_01b97b7c1a31_1352448bf48753",
     "ifix_url": "https://autopatchcn.bhsr.com/ifix/BetaLive/output_0_40d2ce0253_c61ba99f70b885"
+  },
+  "CN4.2.0": {
+    "asset_bundle_url": "https://autopatchcn.bhsr.com/asb/V4.2Live/output_14816885_e394327e9908_b1e84f4b22c1a1",
+    "asset_bundle_url_b": "https://autopatchcn.bhsr.com/asb/V4.2Live/output_14758049_c9aedfef76a6_1a11f816a08717",
+    "ex_resource_url": "https://autopatchcn.bhsr.com/design_data/V4.2Live/output_14824607_2dd521ad2b08_7fbb0038f1c790",
+    "lua_url": "https://autopatchcn.bhsr.com/lua/V4.2Live/output_14817993_e4d3b5b38978_50fa870b23c299",
+    "ifix_url": "https://autopatchcn.bhsr.com/ifix/V4.2Live/output_14796630_83d6d28a8791_8aee7cf4cb1b28"
   }
 }
